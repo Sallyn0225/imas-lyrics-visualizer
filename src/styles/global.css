@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-theme-pink: #ff699e;
+  --color-theme-gold: #f3d266;
+}
+
+:root {
+  --theme-color: #ff699e;
+}
+
+body {
+  background-color: #09090b; /* zinc-950 */
+  color: #fafafa; /* zinc-50 */
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}

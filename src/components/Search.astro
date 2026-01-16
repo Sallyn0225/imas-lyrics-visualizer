@@ -1,0 +1,62 @@
+---
+import '@pagefind/default-ui/css/ui.css';
+---
+
+<div id="search" class="relative z-50"></div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Only load if not already loaded to prevent duplicate instances
+    if (document.querySelector('#search')?.innerHTML === '') {
+      const loadPagefind = async () => {
+        const { PagefindUI } = await import('@pagefind/default-ui');
+        new PagefindUI({
+          element: "#search",
+          showSubResults: true,
+          showImages: false,
+          translations: {
+            placeholder: "Search Lyrics...",
+            zero_results: "No songs found for [SEARCH_TERM]"
+          }
+        });
+      };
+      loadPagefind();
+    }
+  });
+</script>
+
+<style is:global>
+  :root {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: #ff699e;
+    --pagefind-ui-text: #ffffff;
+    --pagefind-ui-background: #1a1015;
+    --pagefind-ui-border: #ffffff22;
+    --pagefind-ui-tag: #ff699e;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: 'Noto Serif JP', sans-serif;
+  }
+
+  /* Customizing the search modal */
+  .pagefind-ui__drawer {
+    backdrop-filter: blur(20px);
+    background-color: rgba(10, 5, 8, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .pagefind-ui__result {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .pagefind-ui__result-link {
+    color: #fff !important;
+    font-weight: bold;
+  }
+
+  .pagefind-ui__result-excerpt {
+    color: #aaa !important;
+  }
+</style>

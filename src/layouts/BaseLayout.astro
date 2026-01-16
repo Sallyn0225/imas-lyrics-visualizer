@@ -1,0 +1,40 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Search from '../components/Search.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  themeColor?: string;
+}
+
+const { title, description = "iDOLM@STER Lyrics Archive", themeColor = "#ff699e" } = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
+    <ViewTransitions />
+  </head>
+  <body class="bg-[#0a0508] text-zinc-50 min-h-screen">
+    <!-- Global Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 pointer-events-none">
+      <a href="/" class="pointer-events-auto text-white/50 hover:text-white transition-colors font-cinzel font-bold text-sm tracking-widest mix-blend-difference">
+        LYRICS.ARCHIVE
+      </a>
+      
+      <div class="pointer-events-auto">
+        <Search />
+      </div>
+    </nav>
+
+    <slot />
+  </body>
+</html>

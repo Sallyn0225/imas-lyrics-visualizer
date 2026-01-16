@@ -1,0 +1,23 @@
+{
+  "name": "extra-eclipse",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "postbuild": "pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^5.1.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@pagefind/default-ui": "^1.1.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "pagefind": "^1.1.1"
+  }
+}

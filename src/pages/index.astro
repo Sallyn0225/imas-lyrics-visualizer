@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allLyrics = await getCollection('lyrics');
+const brands = [...new Set(allLyrics.map(entry => entry.data.brand))];
+
+const featuredSongs = allLyrics.slice(0, 3);
+---
+
+<BaseLayout title="iDOLM@STER Lyrics Archive" themeColor="#0a0508">
+  <div class="fixed inset-0 -z-10 bg-[#050505]">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1015,black)]"></div>
+    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] animate-pulse-slow"></div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-6 min-h-screen flex flex-col justify-center">
+    
+    <!-- Hero -->
+    <header class="text-center mb-32 relative py-20">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-3xl animate-pulse-slow"></div>
+      <h1 class="text-6xl md:text-9xl font-cinzel font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 mb-6 relative z-10">
+        LYRICS<span class="text-[#ff699e]">.</span>ARCHIVE
+      </h1>
+      <p class="text-xl md:text-2xl text-zinc-400 font-serif tracking-[0.2em] uppercase opacity-80">
+        Every song has its own <span class="text-[#ff699e] italic font-bold">soul</span>.
+      </p>
+    </header>
+
+    <!-- Brand Navigation -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+      {brands.map(brand => {
+        // Find a representative image for the brand (first song cover)
+        const brandSong = allLyrics.find(s => s.data.brand === brand);
+        const brandColor = brandSong?.data.themeColor || "#ffffff";
+        const brandSlug = brand.toLowerCase().replace(/\s+/g, '-');
+
+        return (
+          <a href={`/${brandSlug}`} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)]" style={`--shadow: ${brandColor}33`}>
+            <div class="absolute inset-0 bg-zinc-900 transition-colors group-hover:bg-zinc-800">
+              {brandSong && (
+                <img src={brandSong.data.cover} class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-1000 filter blur-sm group-hover:blur-0" />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+            </div>
+            
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
+              <h2 class="text-3xl font-black font-cinzel text-white tracking-widest group-hover:scale-110 transition-transform duration-500 drop-shadow-lg">
+                {brand}
+              </h2>
+              <div class="w-12 h-0.5 bg-[var(--accent)] mt-4 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" style={`--accent: ${brandColor}`}></div>
+            </div>
+          </a>
+        )
+      })}
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-zinc-600 text-xs uppercase tracking-widest py-12 border-t border-white/5">
+      iDOLM@STER Lyrics Archive Project
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;900&family=Noto+Serif+JP:wght@400;700&display=swap');
+  .font-cinzel { font-family: 'Cinzel', serif; }
+  .font-serif { font-family: 'Noto Serif JP', serif; }
+  
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+  }
+  .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+</style>
