@@ -1,91 +1,120 @@
 # Sisyphus 代理协作体系 (AGENTS.MD)
 
-本文档定义了“偶像大师歌词库”项目中的 AI 代理 (Agents) 协作模式，旨在通过跨角色的深度配合，实现 **“一曲一格 (One Song, One Style)”** 的极致视觉表现。
+本文档为“偶像大师歌词库”项目的核心工程规范，定义了 AI 代理 (Agents) 如何协作实现 **“一曲一格 (One Song, One Style)”** 的极致视觉表现。所有参与代码编写、资产管理或文档润色的代理必须严格遵守。
 
-## 1. 代理角色定义
+## 1. 代理角色与协作矩阵 (Agents & Collaboration)
 
-| 角色 | 核心职责 | 典型使用场景 |
+| 角色 | 核心职责 | 协作依赖 |
 | :--- | :--- | :--- |
-| **Sisyphus (Orchestrator)** | 架构演进、任务编排、基础设施与多平台部署策略 | 全局架构重构、`vercel.json`/`netlify.toml` 维护、复杂逻辑实现 |
-| **Frontend UI/UX Engineer** | 极致视觉呈现、CSS 艺术、交互动效 | **定制单曲页面开发**、全局播放器美化、视觉特效 (VFX) |
-| **Librarian** | 资源调研、第三方库选型、资产管理 | 寻找高性能 WebGL 效果、字体子集化建议、CSS 技巧探索 |
-| **Document Writer** | 技术文档编排、语言润色、品牌一致性维护 | 维护 `README.md`, `my-plan.md`, `AGENTS.MD`，并负责建立响应式技术标准 |
-| **Explore** | 代码库嗅探、结构一致性校验 | 检查新增歌曲路由、分析全局样式冲突、上下文检索 |
+| **Sisyphus** | 架构演进、部署策略 (`vercel.json`), 路由编排 | 审核 UI Engineer 的路由过滤逻辑 |
+| **UI/UX Engineer** | CSS 艺术、定制化 `.astro` 页面、VFX 特效 | 依赖 Librarian 提供的技术调研 |
+| **Librarian** | 第三方库选型 (Pagefind, WebGL), 字体优化 | 为 UI Engineer 提供高性能方案 |
+| **Document Writer** | 维护 `AGENTS.MD`, `README.md`, `CONTRIBUTING.md` | 在 Sisyphus 变更架构后同步更新 |
+| **Explore** | 全局一致性校验, 检查 Slug 冲突 | 为所有角色提供上下文检索与审计 |
 
 ---
 
-## 2. 核心工作流：新增一首“定制单曲”
+## 2. 工程指令集 (Commands & Verification)
 
-为了实现真正的个性化，新增歌曲遵循 **“元数据注册 -> 灵魂注入”** 的分工模式：
+### 2.1 核心指令
+- **开发环境**: `npm run dev` (启动 Astro 本地服务器)
+- **静态构建**: `npm run build` (生成产物并自动触发 `postbuild` 索引)
+- **搜索索引**: `npm run postbuild` (由 Pagefind 执行，产物位于 `dist`)
+- **预览**: `npm run preview` (本地预览生产环境产物)
+- **类型审计**: `npm run astro check` (交付代码前必须执行，确保 TypeScript 与 Astro 语法无误)
 
-### 步骤 A：元数据注册 (Sisyphus)
-1. **查重校验**：在创建新曲目前，检查 `src/content/lyrics` 是否已存在同名或同品牌曲目。
-2. **强制命名规范**：在 `src/content/lyrics/[brand]/[team]/[song_slug].md` 创建结构化数据。
-    - **必须使用英文 Slug**：文件名必须使用小写英文+下划线（如 `shiny_stories.md`），严禁使用中文或日文作为文件名，以确保在所有环境下资源加载的稳定性。
-3. **架构验证**：运行 `npm run build` 或使用 `Explore` 代理检查 Frontmatter 完整性（必须包含 `title`, `brand`, `cover`, `audio`）。
-4. **元数据标记**：确保 `themeColor` 准确；若计划开发定制页面，需提前将 `layoutType` 设为 `custom`，以便通用路由进行过滤。
-
-### 步骤 B：灵魂注入 (Frontend UI/UX Engineer)
-1. **输入**：Markdown 元数据、歌曲意境描述（如：空灵、华丽、赛博朋克）。
-2. **执行**：
-    - 在 `src/pages/[brand]/[team]/[song_slug].astro` 构建专属页面。
-    - **路由同步 (Routing Synchronization)**：
-        - 确保 `.astro` 文件名与 Markdown 文件名（Slug）完全一致。
-        - 检查 `src/pages/[brand]/[team]/[song].astro` (通用路由)，确保其已排除 `layoutType: 'custom'` 的条目，避免生成冗余的默认页面。
-        - 若 Slug 发生变更，必须同步更新品牌索引页 (`index.astro`) 的链接逻辑。
-    - 编写该歌曲专用的 HTML 骨架与 CSS 动画。
-    - 实现与歌词情感共鸣的交互效果（如：随着副歌滚动的光晕）。
-    - **响应式审计**：执行 `docs/RESPONSIVE_GUIDE.md` 中的 [Mobile Compatibility Checklist]。
-    - **脚本生命周期审计**：确保所有脚本初始化逻辑遵循 `docs/VIEW_TRANSITIONS_GUIDE.md`，防止导航后失效。
+### 2.2 测试与验证规范
+- **单项测试**: 本项目目前暂未引入 `vitest`。如需进行组件逻辑测试，请先咨询 **Sisyphus** 进行测试环境初始化。
+- **视觉回归**: 手动执行 `docs/RESPONSIVE_GUIDE.md` 中的 [Mobile Compatibility Checklist]。
+- **SEO 校验**: 检查生成产物的 `<title>` 与 `<meta description>` 是否包含歌曲元数据。
 
 ---
 
-## 3. 定制页面“一步到位”检查清单 (Custom Page Checklist)
+## 3. 技术规范与代码风格 (Technical Standards)
 
-在交付定制页面前，必须对照此清单进行自检：
+### 3.1 命名约定 (Naming Conventions)
+- **内容 Slug**: 必须使用 **小写英文 + 下划线** (例如 `shiny_stories.md`)。严禁使用中日文字符作为文件名，以防止在 Vercel/GitHub Pages 等环境下的编码冲突。
+- **目录/路由**: 遵循 Astro 约定，品牌与团队目录使用 `kebab-case` (例如 `shiny-colors/alstroemeria`)。
+- **变量与类型**: 使用 TypeScript 标准 `camelCase`。
+- **CSS 类名**: 优先使用 Tailwind CSS 4 实用类；定制样式建议使用 `custom-` 前缀以作区分。
 
-- [ ] **文件名一致性**：`src/content/lyrics/.../my_song.md` 与 `src/pages/.../my_song.astro` 的 Slug 是否完全匹配？
-- [ ] **英文命名**：文件名是否已避开非 ASCII 字符（如日文、空格）？
-- [ ] **Frontmatter 配置**：`layoutType` 是否已设为 `custom`？
-- [ ] **通用路由过滤**：`[song].astro` 的 `getStaticPaths` 是否已过滤掉该歌曲？
-- [ ] **索引页同步**：品牌主页或队伍主页的 `href` 是否指向了正确的 Slug？
-- [ ] **资产加载**：`getEntry` 调用时是否使用了正确的英文 Slug？
-- [ ] **响应式验证**：在 375px (iPhone SE) 宽度下是否无横向滚动条？
-- [ ] **脚本生命周期**：脚本是否已包装在 `astro:page-load` 中？是否存在顶层 DOM 引用？ (参考 `docs/VIEW_TRANSITIONS_GUIDE.md`)
+### 3.2 导入与模块 (Imports & Modules)
+- **TypeScript**: 强制开启严格模式。禁止使用 `any`，所有复杂对象必须定义 `interface` 或 `type`。
+- **Astro 组件**: 必须在 Frontmatter 部分定义 `interface Props`。
+- **静态资产**: 优先通过 `import.meta.env.BASE_URL` 处理路径，确保在子目录部署时 `favicon` 与 `assets` 加载正确。
 
----
+### 3.3 内容管理 (Content Collections)
+- **Schema 强制**: 所有 Markdown 必须通过 `src/content.config.ts` 的 Zod 校验。
+- **必填字段**: `title`, `brand`, `cover`, `audio`, `layoutType`, `themeColor`。
+- **layoutType**: 
+  - `standard`: 使用通用模板。
+  - `custom`: 意味着该歌曲拥有独立的 `.astro` 页面，Sisyphus 需负责配置路由过滤。
 
-## 4. 视觉规范与技术标准
-
-- **基础框架**：Astro 5 + Tailwind CSS 4。
-- **核心原则**：
-    - **响应式优先 (Responsive-First)**：所有页面必须通过 `100vw` 边界检查，大号文字须具备换行策略，装饰性背景元素必须有 `overflow-hidden` 约束（详见 `docs/RESPONSIVE_GUIDE.md`）。
-    - **转场 (Transitions)**：必须启用 `ViewTransitions` 实现封面图的英雄动画。
-
-    - **滚动 (Scrolling)**：利用 `IntersectionObserver` 或原生 CSS 滚动驱动动画。
-    - **性能 (Performance)**：视觉特效优先使用 CSS，Canvas 仅作为增强手段。
-    - **音频 (Audio)**：所有音频播放器组件（含定制页面与通用模板）必须包含音量控制组件，且默认音量需设为 `0.5` (中等)。
-- **响应式**：移动端优先 (Mobile First)，PC 端增强 (Desktop Enhanced)。
-
----
-
-## 4. 指令协作示例 (Prompts)
-
-### 给 Frontend UI/UX Engineer：
-> “请为歌曲《サンフェーデッド》设计一个专属的 Astro 页面。
-> - **调性**：筱泽广个人曲，日光褪色的质感，紫灰色调。
-> - **动效**：歌词采用错落排版，副歌部分文字需有‘过曝’的光晕扩散感。
-> - **背景**：实现一种类似老胶片颗粒感的 CSS 渐变噪点背景。”
+### 3.4 响应式与 UI 准则 (Responsive & UI)
+- **边界约束**: 严禁在大屏幕下出现横向滚动条。
+- **视觉 Containment**: 任何 `absolute` 或 `fixed` 的装饰性背景元素必须包裹在 `overflow-hidden` 的容器中。
+- **流体排版**: 
+  - 避免 `text-9xl` 等固定巨型字。
+  - 使用 `text-4xl md:text-7xl` 或 `clamp(2rem, 5vw, 5rem)` 处理标题。
+- **交互性能**: 优先使用 CSS 硬件加速 (`transform`, `opacity`)，避免频繁触发 Layout Reflow。
 
 ---
 
-## 6. 文档维护规范
+## 4. 关键工作流：定制单曲开发 (Custom Song Workflow)
 
-任何系统级变更后，必须由 **Document Writer** 同步更新以下资产，确保项目“言行一致”：
-- `README.md`: 项目门户与快速上手。
-- `my-plan.md`: 开发进度与架构蓝图。
-- `AGENTS.MD`: 代理协作契约。
+### 步骤 1: 元数据准备 (Sisyphus)
+- 在 `src/content/lyrics/[brand]/[team]/[song_slug].md` 注册数据。
+- 将 `layoutType` 显式设为 `custom`。
+- 确认 `themeColor` 的 Hex 值是否与封面视觉调性匹配。
+
+### 步骤 2: 页面注入 (Frontend UI/UX Engineer)
+- 创建 `src/pages/[brand]/[team]/[song_slug].astro`。
+- **路由过滤**: 必须检查并修改 `src/pages/[brand]/[team]/[song].astro` (通用路由)，在 `getStaticPaths` 中过滤掉 `layoutType: 'custom'` 的条目。
+- **视觉适配**: 遵循“一曲一格”原则，通过 `themeColor` 驱动全局 CSS 变量。
+
+### 步骤 3: 脚本生命周期审计 (Explore/UI)
+- **View Transitions**: 严禁使用 `DOMContentLoaded`。所有客户端 JS 必须封装在 `astro:page-load` 监听器中。
+- **清理逻辑**: 离开页面时必须断开 `IntersectionObserver` 或 `requestAnimationFrame`，防止内存泄漏。
 
 ---
 
-*由 Sisyphus 代理体系维护 | 最后更新：2026-01-17*
+## 5. 视觉特效与交互 (VFX & Interaction)
+
+### 5.1 关键词特效 (Keyword Enhancements)
+- 通用组件通过 `enhanceText` 函数自动扫描歌词中的关键词（如 "夢", "愛", "光"）。
+- UI Engineer 可在定制页面中通过 `src/styles/global.css` 扩展 `.kw-` 类名来实现特定的粒子或发光效果。
+
+### 5.2 滚动驱动动画 (Scroll-Driven Storytelling)
+- 强制使用 `Intersection Observer` 实现歌词的淡入与位移。
+- 定制页面应利用 `CSS scroll-timeline` (如环境支持) 或 `requestAnimationFrame` 确保动画的丝滑感。
+
+---
+
+## 6. 异常处理与故障排除 (Error Handling)
+
+- **构建失败**: 首先检查 `src/content.config.ts` 是否有字段冲突，或 Slug 是否包含空格、大写字母。
+- **脚本失效**: 检查是否因 View Transitions 导致脚本未重新执行。
+- **样式逃逸**: 检查 `BaseLayout` 是否被覆盖，或是否有元素使用了 `width: 100vw` 而未考虑滚动条宽度。
+- **音频加载**: 检查 `audio` URL 是否为有效链接且支持跨域。
+
+---
+
+## 7. 核心库与工具 (Tooling)
+
+- **Astro 5**: 利用最新的 Content Layer API。
+- **Tailwind 4**: 使用 Vite 插件集成的渲染引擎。
+- **Pagefind**: 仅在静态产物生成后有效，开发环境下不可用。
+- **Lyrics Parser**: `src/utils/lyrics-parser.ts` 负责将 Markdown 拆解为段落。
+
+---
+
+## 8. 协作契约 (The Contract)
+
+1. **先读后写**: 修改核心架构 (如 `BaseLayout` 或 `global.css`) 前，必须调用 `Explore` 评估全站影响。
+2. **文档同步**: 完成非琐碎的功能更新后，必须由 **Document Writer** 同步更新相关 MD 文档。
+3. **视觉对齐**: 每一个 Custom Layout 都应包含封面英雄动画 (Hero Animation) 与响应式审计。
+4. **代码简洁**: 优先使用 CSS 方案，减少对复杂 JS 逻辑的依赖。
+
+---
+
+*由 Sisyphus 代理体系维护 | 版本: 2.1.0 | 最后更新: 2026-01-17*
