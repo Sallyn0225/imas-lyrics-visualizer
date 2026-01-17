@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+// Retrieve metadata
+const songEntry = await getEntry('lyrics', 'shiny-colors/solo/chocolate_sunday');
+const title = songEntry?.data.title || "チョコデート・サンデー";
+// const brand = songEntry?.data.brand || "Shiny Colors"; // Unused
+const team = songEntry?.data.team || "Sonoda Chiyoko";
+const themeColor = songEntry?.data.themeColor || "#f93b90"; 
+const cover = songEntry?.data.cover || "";
+const audio = songEntry?.data.audio || "";
+
+const lyrics = [
+  {
+    type: 'intro',
+    lines: [
+      "どぅいどぅい　どぅ～"
+    ]
+  },
+  {
+    type: 'verse',
+    lines: [
+      "トクベツ　ゴージャスな",
+      "日常　味わいたいけれど",
+      "ファ・ド　ソレ　ドーなの？",
+      "(たまにだから　いいんじゃない？)"
+    ]
+  },
+  {
+    type: 'verse',
+    lines: [
+      "それなりに　空気や",
+      "諸事情　気づかえるけれど",
+      "ちょっと　ワガママ　言うよ！",
+      "(たまには　ねぇ！　いいでしょ？)"
+    ]
+  },
+  {
+    type: 'pre-chorus',
+    lines: [
+      "ホットかれたら　ハート",
+      "冷めちゃうんだから　ぎゅーっと",
+      "手を繋いでくれなきゃ　(るらら～)",
+      "小さな幸せだって",
+      "どこかへ飛んで行っちゃうよ",
+      "あなたのいつものカフェ　連れてって"
+    ]
+  },
+  {
+    type: 'chorus',
+    lines: [
+      "日曜のデート",
+      "視線すら忙しい",
+      "私のこと　もうちょこっと見てよ～！",
+      "今日のデザート",
+      "ささやかなご褒美",
+      "あなたともっとこのとき　過ごしていたい"
+    ]
+  },
+  {
+    type: 'hook',
+    lines: [
+      "Chu Chu I will be with you",
+      "アイスる　甘苦いサンデー",
+      "Chu Chu I will be with you",
+      "恋して　溶けてゆくサンデー",
+      "あーん"
+    ]
+  },
+  {
+    type: 'interlude',
+    lines: [
+      "どぅいどぅい　どぅ～"
+    ]
+  },
+  {
+    type: 'verse',
+    lines: [
+      "おたがいのごく普通",
+      "ひとくち分け合うことは",
+      "ファ・ド　ソレ　スペシャル",
+      "(そこんとこ　大事ね！)"
+    ]
+  },
+  {
+    type: 'verse',
+    lines: [
+      "ほかの子が持っている",
+      "才能　羨ましいけれど",
+      "魔法　マイ　オリジナル",
+      "(そこんとこ　愛して！)"
+    ]
+  },
+  {
+    type: 'pre-chorus',
+    lines: [
+      "やっぱ揺れちゃうハート",
+      "アレもコレも…って　どうしよう",
+      "隣のイチゴほど　(まっかっか)",
+      "だからぜーんぶ独り占め！",
+      "油断しないで！かまって！",
+      "…なんて伝えられたらいいけど"
+    ]
+  },
+  {
+    type: 'chorus',
+    lines: [
+      "月曜が近いよ",
+      "おしゃべりも遠回り",
+      "私のそば　もうちょこっといてよ～！",
+      "今日のデザート",
+      "食べたら終わっちゃうね",
+      "ふたりだけの週末　物足りないな"
+    ]
+  },
+  {
+    type: 'bridge',
+    lines: [
+      "One, Two, One, Two, Three, Go！",
+      "あなたとサンデー　(あなたとサンデー)",
+      "食べたらマンデー　(食べたらマンデー)",
+      "え～！？"
+    ]
+  },
+  {
+    type: 'chorus',
+    lines: [
+      "月曜が近いよ",
+      "おしゃべりも遠回り",
+      "私のそば　もうちょこっといてよ～！",
+      "今日のデザート",
+      "食べたら終わっちゃうね",
+      "ふたりだけの週末　物足りないな"
+    ]
+  },
+  {
+    type: 'hook',
+    lines: [
+      "Chu Chu I will be with you",
+      "アイスる　甘苦いサンデー",
+      "Chu Chu I will be with you",
+      "恋して　溶けてゆくサンデー",
+      "あーん"
+    ]
+  },
+  {
+    type: 'outro',
+    lines: [
+      "どぅいどぅい　どぅ～",
+      "Do Do Do Do！"
+    ]
+  }
+];
+
+// Keywords for decoration
+const keywords = [
+  { word: "チョコ", class: "kw-choco" },
+  { word: "デート", class: "kw-date" },
+  { word: "サンデー", class: "kw-sunday" },
+  { word: "ハート", class: "kw-heart" },
+  { word: "アイス", class: "kw-ice" },
+  { word: "甘苦い", class: "kw-bittersweet" },
+  { word: "溶けて", class: "kw-melt" },
+  { word: "日曜", class: "kw-sunday-day" },
+  { word: "月曜", class: "kw-monday" },
+  { word: "あーん", class: "kw-ahn" },
+];
+
+function enhanceText(text: string) {
+  let html = text;
+  keywords.forEach(kw => {
+    html = html.replace(new RegExp(kw.word, 'g'), `<span class="inline-block relative z-10 keyword ${kw.class}">${kw.word}</span>`);
+  });
+  return html;
+}
+---
+
+<BaseLayout title={`${title} - ${team}`} themeColor={themeColor}>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+
+  <!-- Chocolate Sunday Visual Architecture -->
+  <div class="fixed inset-0 -z-10 overflow-hidden bg-[#fffdf5]">
+    <!-- Polka Dot Pattern -->
+    <div class="absolute inset-0 opacity-20" 
+         style="background-image: radial-gradient(#f93b90 15%, transparent 16%), radial-gradient(#ffca28 15%, transparent 16%); background-size: 60px 60px; background-position: 0 0, 30px 30px; animation: bg-scroll 60s linear infinite;">
+    </div>
+    
+    <!-- Floating Sprinkles/Shapes -->
+    <div class="absolute top-[10%] left-[5%] text-[#f93b90] text-6xl opacity-20 animate-float-slow">♥</div>
+    <div class="absolute bottom-[20%] right-[10%] text-[#4e342e] text-8xl opacity-10 animate-float-delayed">●</div>
+    <div class="absolute top-[40%] right-[20%] text-[#ffca28] text-5xl opacity-30 animate-bounce-slow">★</div>
+    
+    <!-- Vignette -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(249,59,144,0.1)_100%)] pointer-events-none"></div>
+  </div>
+
+  <main class="relative z-10 w-full min-h-screen overflow-x-hidden text-[#4e342e] selection:bg-[#f93b90] selection:text-white pb-32">
+    
+    <!-- Hero Section -->
+    <section class="min-h-[100svh] flex flex-col items-center justify-center relative p-6 w-full text-center overflow-hidden">
+      
+      <!-- Decorative Drip -->
+      <div class="absolute top-0 left-0 right-0 h-32 md:h-48 z-0 pointer-events-none">
+        <svg class="w-full h-full fill-[#4e342e]" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,122.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+      </div>
+
+      <div class="z-10 flex flex-col items-center gap-6 w-full max-w-4xl">
+        <!-- CD Cover / Record Effect -->
+        <div class="relative group w-64 h-64 md:w-80 md:h-80 mb-8">
+           <!-- Whipped Cream Background -->
+           <div class="absolute -inset-8 bg-white rounded-full blur-md opacity-80 animate-pulse-slow"></div>
+           
+           <div class="relative w-full h-full rounded-full border-8 border-white shadow-xl overflow-hidden animate-spin-slow-paused" id="hero-cover">
+             <img src={cover} alt={title} class="w-full h-full object-cover" transition:name="cover-chocolate" />
+             <div class="absolute inset-0 rounded-full border-[12px] border-[#4e342e]/10 pointer-events-none"></div>
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-inner z-20"></div>
+           </div>
+           
+           <!-- Shine Effect -->
+           <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/80 to-transparent rounded-full blur-xl pointer-events-none z-30"></div>
+        </div>
+
+        <div class="space-y-4">
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-mochiy text-[#f93b90] drop-shadow-[4px_4px_0px_#fff] stroke-text leading-tight transform -rotate-2">
+            {title}
+          </h1>
+          <p class="text-lg md:text-xl font-maru font-bold tracking-widest text-[#4e342e] bg-white/80 inline-block px-6 py-2 rounded-full shadow-sm border-2 border-[#f93b90]/30">
+            {team}
+          </p>
+        </div>
+      </div>
+      
+      <div class="absolute bottom-10 animate-bounce text-[#f93b90]">
+        <svg class="w-8 h-8 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+      </div>
+    </section>
+
+    <!-- Lyrics Content -->
+    <div class="max-w-3xl mx-auto px-4 w-full space-y-24">
+
+      {lyrics.map((section, index) => (
+        <section class={`text-center space-y-6 relative py-4 ${section.type === 'hook' ? 'my-12' : ''}`}>
+          
+          {/* Section Decoration */}
+          {section.type === 'chorus' && (
+             <div class="absolute inset-0 bg-white/40 rounded-[3rem] blur-xl -z-10 scale-110"></div>
+          )}
+
+          {section.lines.map((line, i) => (
+            <div class={`reveal-pop relative inline-block max-w-full break-words
+              ${section.type === 'intro' || section.type === 'interlude' || section.type === 'outro' ? 'text-2xl font-mochiy text-[#f93b90] animate-bounce-custom' : ''}
+              ${section.type === 'verse' ? 'text-lg md:text-2xl font-maru font-bold text-[#4e342e] bubble-text' : ''}
+              ${section.type === 'pre-chorus' ? 'text-xl md:text-2xl font-maru text-[#4e342e]/90 italic' : ''}
+              ${section.type === 'chorus' ? 'text-2xl md:text-4xl font-mochiy text-[#f93b90] drop-shadow-sm leading-relaxed' : ''}
+              ${section.type === 'hook' ? 'text-xl md:text-3xl font-maru font-black text-[#4e342e] bg-[#ffecb3] px-4 py-2 rounded-lg transform rotate-1 inline-block shadow-[4px_4px_0px_rgba(0,0,0,0.1)]' : ''}
+              ${section.type === 'bridge' ? 'text-3xl md:text-5xl font-mochiy text-[#f93b90] animate-pulse' : ''}
+            `}>
+              <span set:html={enhanceText(line)} />
+            </div>
+          ))}
+        </section>
+      ))}
+
+    </div>
+
+  </main>
+
+  <!-- Sweet Player Dock -->
+  <div class="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <div class="pointer-events-auto flex flex-col md:flex-row items-center gap-4 p-3 md:pr-6 rounded-[2rem] bg-white border-4 border-[#4e342e] shadow-[8px_8px_0px_rgba(78,52,46,0.2)] text-[#4e342e] max-w-full md:max-w-xl w-full transition-transform hover:scale-[1.02]">
+      
+      <!-- Progress Bar (Top on mobile, integrated on desktop) -->
+      <div class="w-full h-3 bg-[#f0f0f0] rounded-full overflow-hidden border-2 border-[#4e342e] cursor-pointer group relative order-1 md:order-2 md:w-auto md:flex-1 md:mx-4" id="progress-container">
+        <div id="progress-bar" class="h-full bg-[#f93b90] w-0 relative">
+             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[#f93b90] rounded-full shadow-sm scale-0 group-hover:scale-125 transition-transform"></div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex items-center justify-between w-full md:w-auto gap-4 order-2 md:order-1">
+          <div class="flex items-center gap-3">
+             <div class="relative w-12 h-12 flex-shrink-0 border-2 border-[#4e342e] rounded-full overflow-hidden bg-[#f93b90]">
+                <img src={cover} id="mini-thumb" class="w-full h-full object-cover animate-spin-slow-paused opacity-80" />
+             </div>
+             <div class="flex flex-col">
+                <span class="text-xs font-black uppercase tracking-wider text-[#f93b90] truncate max-w-[120px]">{title}</span>
+                <span id="time-display" class="text-[10px] font-mono font-bold bg-[#4e342e] text-white px-1 rounded w-fit">00:00</span>
+             </div>
+          </div>
+
+          <button id="play-btn" class="w-12 h-12 flex items-center justify-center rounded-full bg-[#f93b90] text-white border-2 border-[#4e342e] shadow-[2px_2px_0px_#4e342e] hover:translate-y-1 hover:shadow-none transition-all active:scale-95">
+            <svg id="play-icon" class="w-5 h-5 ml-1 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-icon" class="hidden w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+      </div>
+
+      <!-- Volume -->
+      <div class="hidden md:flex items-center gap-2 group/vol relative order-3">
+        <svg class="w-5 h-5 text-[#4e342e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <div class="w-0 overflow-hidden group-hover/vol:w-20 transition-all duration-300 ease-out flex items-center">
+          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" class="w-20 h-2 bg-[#f0f0f0] rounded-full appearance-none cursor-pointer border border-[#4e342e] accent-[#f93b90]" />
+        </div>
+      </div>
+
+      <audio id="main-audio" src={audio} preload="auto"></audio>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<style>
+  /* Fonts */
+  :root {
+    --font-maru: 'Zen Maru Gothic', sans-serif;
+    --font-mochiy: 'Mochiy Pop One', sans-serif;
+  }
+  .font-maru { font-family: var(--font-maru); }
+  .font-mochiy { font-family: var(--font-mochiy); }
+
+  /* Animations */
+  @keyframes bg-scroll { from { background-position: 0 0, 30px 30px; } to { background-position: 1000px 1000px, 1030px 1030px; } }
+  
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } }
+  .animate-float-slow { animation: float 8s ease-in-out infinite; }
+  .animate-float-delayed { animation: float 10s ease-in-out 2s infinite; }
+  
+  @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+  .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .animate-spin-slow { animation: spin-slow 10s linear infinite; }
+  .animate-spin-slow-paused { animation: spin-slow 10s linear infinite; animation-play-state: paused; }
+
+  @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 0.6; } }
+  .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+  @keyframes bounce-custom { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .animate-bounce-custom { animation: bounce-custom 0.8s cubic-bezier(0.36, 0, 0.66, -0.56) infinite alternate; }
+
+  /* Text Effects */
+  .stroke-text {
+    -webkit-text-stroke: 2px #fff;
+    paint-order: stroke fill;
+  }
+  
+  .bubble-text {
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    box-shadow: 4px 4px 0px rgba(249, 59, 144, 0.2);
+    border: 2px solid #f93b90;
+  }
+
+  /* Reveal Animations */
+  .reveal-pop { opacity: 0; transform: scale(0.8) translateY(20px); transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .reveal-pop.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+  /* Keywords */
+  .keyword { transition: all 0.2s; }
+  .kw-choco { color: #4e342e; text-decoration: underline wavy #f93b90; }
+  .kw-date { color: #f93b90; font-weight: 900; }
+  .kw-sunday { background: linear-gradient(120deg, #f93b90 0%, #ffca28 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+  .kw-heart { display: inline-block; animation: beat 1s infinite; color: #e91e63; }
+  .kw-melt { background: linear-gradient(to bottom, #4e342e 50%, transparent 50%); -webkit-background-clip: text; opacity: 0.8; filter: blur(0.5px); }
+  .kw-ahn { font-size: 1.2em; color: #e91e63; font-style: italic; }
+  .kw-ice { color: #29b6f6; text-shadow: 2px 2px 0px #fff; }
+
+  @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+  /* Utilities */
+  .font-mochiy { letter-spacing: 0.05em; }
+</style>
+
+<script>
+  function init() {
+    // Observer Logic
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Stagger children if any
+          const children = entry.target.querySelectorAll('.reveal-pop');
+          children.forEach((child, i) => {
+             setTimeout(() => child.classList.add('visible'), i * 100);
+          });
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    document.querySelectorAll('.reveal-pop').forEach(el => observer.observe(el));
+
+    // Audio Player Logic
+    const audio = document.getElementById('main-audio') as HTMLAudioElement;
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const thumb = document.getElementById('mini-thumb');
+    const heroThumb = document.getElementById('hero-cover'); // Hero image spins too
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const timeDisplay = document.getElementById('time-display');
+    const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+
+    if (audio && playBtn) {
+      audio.volume = 0.5;
+      if (volumeSlider) volumeSlider.value = "0.5";
+
+      const togglePlay = () => {
+        if (audio.paused) {
+          audio.play();
+          playIcon?.classList.add('hidden');
+          pauseIcon?.classList.remove('hidden');
+          if (thumb) thumb.style.animationPlayState = 'running';
+          if (heroThumb) heroThumb.style.animationPlayState = 'running';
+        } else {
+          audio.pause();
+          playIcon?.classList.remove('hidden');
+          pauseIcon?.classList.add('hidden');
+          if (thumb) thumb.style.animationPlayState = 'paused';
+          if (heroThumb) heroThumb.style.animationPlayState = 'paused';
+        }
+      };
+
+      playBtn.onclick = togglePlay;
+
+      audio.ontimeupdate = () => {
+        const duration = audio.duration || 0;
+        const current = audio.currentTime;
+        const percent = (current / duration) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        
+        const m = Math.floor(current / 60);
+        const s = Math.floor(current % 60);
+        if (timeDisplay) timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      };
+
+      if (progressContainer) {
+        progressContainer.onclick = (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const p = (e.clientX - rect.left) / rect.width;
+          if (audio.duration) audio.currentTime = p * audio.duration;
+        };
+      }
+
+      if (volumeSlider) {
+        volumeSlider.oninput = (e) => {
+          const target = e.target as HTMLInputElement;
+          audio.volume = parseFloat(target.value);
+        };
+      }
+    }
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>

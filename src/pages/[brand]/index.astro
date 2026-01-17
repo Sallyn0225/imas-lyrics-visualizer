@@ -64,7 +64,9 @@ const themeColor = songs[0]?.data.themeColor || "#ffffff";
               const brandSlug = segments[0];
               const teamSlug = segments[1] || 'other';
               const songSlugBase = segments[2]?.replace('.md', '') || song.id.replace('.md', '');
-              const songSlug = songSlugBase === 'サンフェーデッド' ? 'sunfaded' : songSlugBase;
+              let songSlug = songSlugBase;
+              if (songSlugBase === 'サンフェーデッド') songSlug = 'sunfaded';
+              if (songSlugBase === 'chocolate_sunday') songSlug = 'chocolate_sunday';
               
               return (
                 <a href={`/${brandSlug}/${teamSlug}/${songSlug}`} 

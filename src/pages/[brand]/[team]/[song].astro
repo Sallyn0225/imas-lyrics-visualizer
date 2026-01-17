@@ -6,21 +6,25 @@ import { render } from 'astro:content';
 export async function getStaticPaths() {
   const allLyrics = await getCollection('lyrics');
 
-  return allLyrics.map((entry) => {
-    const segments = entry.id.split('/');
-    const brandSlug = segments[0] || 'other';
-    const teamSlug = segments[1] || 'other';
-    const songSlug = segments[2]?.replace('.md', '') || entry.id.replace('.md', '');
+  // Filter out entries that have a custom layout defined
+  // These will be handled by dedicated .astro files in the same directory structure
+  return allLyrics
+    .filter(entry => entry.data.layoutType !== 'custom')
+    .map((entry) => {
+      const segments = entry.id.split('/');
+      const brandSlug = segments[0] || 'other';
+      const teamSlug = segments[1] || 'other';
+      const songSlug = segments[2]?.replace('.md', '') || entry.id.replace('.md', '');
 
-    return {
-      params: {
-        brand: brandSlug,
-        team: teamSlug,
-        song: songSlug,
-      },
-      props: { entry },
-    };
-  });
+      return {
+        params: {
+          brand: brandSlug,
+          team: teamSlug,
+          song: songSlug,
+        },
+        props: { entry },
+      };
+    });
 }
 
 const { entry } = Astro.props;

@@ -19,23 +19,41 @@
 为了实现真正的个性化，新增歌曲遵循 **“元数据注册 -> 灵魂注入”** 的分工模式：
 
 ### 步骤 A：元数据注册 (Sisyphus)
-1. **查重校验**：在创建新曲目前，检查 `src/content/lyrics` 是否已存在同名或同品牌曲目，避免因中英文命名不一致（如 `gkmas` vs `Gakuen`）导致的冗余。
-2. 在 `src/content/lyrics/[brand]/[team]/[song].md` 创建结构化数据。
+1. **查重校验**：在创建新曲目前，检查 `src/content/lyrics` 是否已存在同名或同品牌曲目。
+2. **强制命名规范**：在 `src/content/lyrics/[brand]/[team]/[song_slug].md` 创建结构化数据。
+    - **必须使用英文 Slug**：文件名必须使用小写英文+下划线（如 `shiny_stories.md`），严禁使用中文或日文作为文件名，以确保在所有环境下资源加载的稳定性。
 3. **架构验证**：运行 `npm run build` 或使用 `Explore` 代理检查 Frontmatter 完整性（必须包含 `title`, `brand`, `cover`, `audio`）。
-4. 确保 `themeColor` 与 `layoutType` 准确定义了视觉基调。
+4. **元数据标记**：确保 `themeColor` 准确；若计划开发定制页面，需提前将 `layoutType` 设为 `custom`，以便通用路由进行过滤。
 
 ### 步骤 B：灵魂注入 (Frontend UI/UX Engineer)
 1. **输入**：Markdown 元数据、歌曲意境描述（如：空灵、华丽、赛博朋克）。
 2. **执行**：
-    - 在 `src/pages/[brand]/[team]/[song].astro` 构建专属页面。
-    - **路由同步**：若自定义页面 slug（如 `sunfaded`）与元数据文件名（如 `サンフェーデッド`）不一致，必须在路由逻辑中建立映射。
+    - 在 `src/pages/[brand]/[team]/[song_slug].astro` 构建专属页面。
+    - **路由同步 (Routing Synchronization)**：
+        - 确保 `.astro` 文件名与 Markdown 文件名（Slug）完全一致。
+        - 检查 `src/pages/[brand]/[team]/[song].astro` (通用路由)，确保其已排除 `layoutType: 'custom'` 的条目，避免生成冗余的默认页面。
+        - 若 Slug 发生变更，必须同步更新品牌索引页 (`index.astro`) 的链接逻辑。
     - 编写该歌曲专用的 HTML 骨架与 CSS 动画。
     - 实现与歌词情感共鸣的交互效果（如：随着副歌滚动的光晕）。
     - **响应式审计**：执行 `docs/RESPONSIVE_GUIDE.md` 中的 [Mobile Compatibility Checklist]。
 
 ---
 
-## 3. 视觉规范与技术标准
+## 3. 定制页面“一步到位”检查清单 (Custom Page Checklist)
+
+在交付定制页面前，必须对照此清单进行自检：
+
+- [ ] **文件名一致性**：`src/content/lyrics/.../my_song.md` 与 `src/pages/.../my_song.astro` 的 Slug 是否完全匹配？
+- [ ] **英文命名**：文件名是否已避开非 ASCII 字符（如日文、空格）？
+- [ ] **Frontmatter 配置**：`layoutType` 是否已设为 `custom`？
+- [ ] **通用路由过滤**：`[song].astro` 的 `getStaticPaths` 是否已过滤掉该歌曲？
+- [ ] **索引页同步**：品牌主页或队伍主页的 `href` 是否指向了正确的 Slug？
+- [ ] **资产加载**：`getEntry` 调用时是否使用了正确的英文 Slug？
+- [ ] **响应式验证**：在 375px (iPhone SE) 宽度下是否无横向滚动条？
+
+---
+
+## 4. 视觉规范与技术标准
 
 - **基础框架**：Astro 5 + Tailwind CSS 4。
 - **核心原则**：
@@ -59,7 +77,7 @@
 
 ---
 
-## 5. 文档维护规范
+## 6. 文档维护规范
 
 任何系统级变更后，必须由 **Document Writer** 同步更新以下资产，确保项目“言行一致”：
 - `README.md`: 项目门户与快速上手。

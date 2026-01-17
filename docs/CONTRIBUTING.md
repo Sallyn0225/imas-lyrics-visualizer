@@ -18,8 +18,8 @@ To add a new song, create a `.md` file in the appropriate brand folder.
 ### 1. File Naming & Directory Structure
 
 - **Directory**: `src/content/lyrics/[brand-slug]/[team-slug]/`
-- **Filename**: Use the song's original title (e.g., `サンフェーデッド.md`).
-- **Slugs**: Slugs must be consistent. If a custom page is created, its filename in `src/pages/` must match the entry ID or be explicitly mapped.
+- **Filename**: Always use **lower-case English slugs with underscores** (e.g., `shiny_stories.md`) instead of native titles for filenames. This ensures asset fetching stability and clean URLs.
+- **Slugs**: Slugs must be consistent across the project. 
 
 ### 2. Frontmatter Schema (Mandatory)
 
@@ -33,19 +33,21 @@ team: "Unit Name"           # [Mandatory] Canonical ID (e.g., "shinosawa-hiro")
 themeColor: "#9d93ad"        # [Mandatory] Primary theme color (Hex)
 cover: "https://url.to/img"  # [Mandatory] URL to the cover art
 audio: "https://url.to/mp3"  # [Mandatory] URL to the audio file
-layoutType: "experimental"   # [Mandatory] Template type
+layoutType: "experimental"   # [Mandatory] Template type. Use 'custom' for bespoke .astro pages.
 ---
 ```
 
 **Naming Conventions:**
-- **Brand**: Use lowercase kebab-case for slugs (e.g., `shiny-colors`, `gkmas`). Avoid mixing Japanese and English in data fields intended for routing.
+- **Brand**: Use lowercase kebab-case for slugs (e.g., `shiny-colors`, `gkmas`). 
 - **Team**: Use lowercase kebab-case (e.g., `alstroemeria`, `shinosawa-hiro`).
 
 ### 3. Custom Page Mapping (Soul Injection)
 
-When creating a custom `.astro` page for a song (e.g., `src/pages/gkmas/shinosawa-hiro/sunfaded.astro`):
-- Ensure the routing logic in `[song].astro` (the fallback) correctly identifies if a custom page exists.
-- **Critical**: If the custom page uses an English slug (`sunfaded`) but the Markdown uses a Japanese title (`サンフェーデッド`), you must register this mapping in the site's navigation/routing configuration to avoid 404s.
+When creating a bespoke `.astro` page for a song (e.g., `src/pages/gkmas/shinosawa-hiro/sunfaded.astro`):
+- **Slug Consistency**: The `.astro` filename MUST exactly match the Markdown filename in `src/content/lyrics/`.
+- **Exclusion Logic**: The generic route `[song].astro` must be updated to filter out entries where `layoutType: 'custom'`.
+- **Navigation Update**: When a custom slug deviates from the default title-to-slug logic, you must manually update the brand/team index pages (e.g., `src/pages/[brand]/index.astro`) to point to the correct URL.
+- **Asset Fetching**: Always use the English slug for `getEntry` calls to avoid encoding issues with native characters.
 
 ### 4. Markdown Body Structure
 
