@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getEntry } from 'astro:content';
 
 // Retrieve metadata
-const songEntry = await getEntry('lyrics', 'gkmas/shinosawa-hiro/サンフェーデッド');
+const songEntry = await getEntry('lyrics', 'gkmas/shinosawa-hiro/sunfaded');
 const title = songEntry?.data.title || "サンフェーデッド";
 const brand = songEntry?.data.brand || "Gakuen Idolmaster";
 const team = songEntry?.data.team || "Shinosawa Hiro";
