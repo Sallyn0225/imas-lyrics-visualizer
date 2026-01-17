@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   // Filter out entries that have a custom layout defined
   // These will be handled by dedicated .astro files in the same directory structure
   return allLyrics
-    .filter(entry => entry.data.layoutType !== 'custom')
+    .filter(entry => !['custom', 'experimental', 'alstroemeria'].includes(entry.data.layoutType))
     .map((entry) => {
       const segments = entry.id.split('/');
       const brandSlug = segments[0] || 'other';
