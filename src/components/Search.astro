@@ -45,6 +45,15 @@ import '@pagefind/default-ui/css/ui.css';
     --pagefind-ui-image-box-ratio: 3 / 2;
     --pagefind-ui-font: 'Noto Serif JP', sans-serif;
   }
+  
+  @media (max-width: 768px) {
+    :root {
+      --pagefind-ui-scale: 0.7;
+    }
+    #search {
+        max-width: 150px;
+    }
+  }
 
   /* Customizing the search modal */
   .pagefind-ui__drawer {

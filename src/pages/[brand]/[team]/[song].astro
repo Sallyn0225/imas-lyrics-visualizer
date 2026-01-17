@@ -29,21 +29,31 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${title} - ${brand}`} themeColor={themeColor}>
-  <main class="max-w-4xl mx-auto px-6 py-32 min-h-screen">
-    <header class="mb-16 text-center">
-      <img src={cover} alt={title} class="w-48 h-48 mx-auto rounded-lg shadow-2xl mb-8" transition:name={`cover-${entry.id}`} />
-      <h1 class="text-5xl font-bold mb-4">{title}</h1>
-      <p class="text-zinc-400 uppercase tracking-widest">{brand} {team ? `✦ ${team}` : ''}</p>
+  <main class="max-w-4xl mx-auto px-6 py-32 min-h-screen w-full overflow-x-hidden">
+    <header class="mb-16 text-center px-4">
+      <img src={cover} alt={title} class="w-48 h-48 mx-auto rounded-lg shadow-2xl mb-8 object-cover" transition:name={`cover-${entry.id}`} />
+      <h1 class="text-3xl md:text-5xl font-bold mb-4 break-words">{title}</h1>
+      <p class="text-zinc-400 uppercase tracking-widest text-sm md:text-base">{brand} {team ? `✦ ${team}` : ''}</p>
     </header>
 
-    <div class="prose prose-invert prose-pink mx-auto">
+    <div class="prose prose-invert prose-pink mx-auto px-4 max-w-full break-words">
       <Content />
     </div>
 
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
-      <div class="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center gap-4">
-        <audio src={audio} controls class="w-full h-8"></audio>
+      <div class="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center gap-4 shadow-xl">
+        <audio id="generic-audio" src={audio} controls class="w-full h-8 opacity-80 hover:opacity-100 transition-opacity"></audio>
       </div>
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  function init() {
+    const audio = document.getElementById('generic-audio') as HTMLAudioElement;
+    if (audio) {
+      audio.volume = 0.5; // Default medium volume
+    }
+  }
+  document.addEventListener('astro:page-load', init);
+</script>

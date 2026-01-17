@@ -16,18 +16,18 @@ const { title, description = "iDOLM@STER Lyrics Archive", themeColor = "#ff699e"
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content={themeColor} />
     <ViewTransitions />
   </head>
-  <body class="bg-[#0a0508] text-zinc-50 min-h-screen">
+  <body class="bg-[#0a0508] text-zinc-50 min-h-screen overflow-x-hidden">
     <!-- Global Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 pointer-events-none">
-      <a href="/" class="pointer-events-auto text-white/50 hover:text-white transition-colors font-cinzel font-bold text-sm tracking-widest mix-blend-difference">
-        LYRICS.ARCHIVE
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-6 py-4 pointer-events-none w-full max-w-[100vw] overflow-hidden">
+      <a href="/" class="pointer-events-auto text-white/50 hover:text-white transition-colors font-cinzel font-bold text-xs md:text-sm tracking-widest mix-blend-difference truncate mr-4">
+        IMAS.LYRICS.ARCHIVE
       </a>
       
       <div class="pointer-events-auto">

@@ -17,10 +17,10 @@ const featuredSongs = allLyrics.slice(0, 3);
   <main class="max-w-7xl mx-auto px-6 min-h-screen flex flex-col justify-center">
     
     <!-- Hero -->
-    <header class="text-center mb-32 relative py-20">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-3xl animate-pulse-slow"></div>
-      <h1 class="text-6xl md:text-9xl font-cinzel font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 mb-6 relative z-10">
-        LYRICS<span class="text-[#ff699e]">.</span>ARCHIVE
+    <header class="text-center mb-32 relative py-20 w-full overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-[90vw] h-[600px] max-h-[90vw] bg-white/[0.02] rounded-full blur-3xl animate-pulse-slow"></div>
+      <h1 class="text-3xl md:text-7xl lg:text-8xl font-cinzel font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 mb-6 relative z-10 break-words px-4">
+        偶像大师歌词可视化存档
       </h1>
       <p class="text-xl md:text-2xl text-zinc-400 font-serif tracking-[0.2em] uppercase opacity-80">
         Every song has its own <span class="text-[#ff699e] italic font-bold">soul</span>.
@@ -28,7 +28,7 @@ const featuredSongs = allLyrics.slice(0, 3);
     </header>
 
     <!-- Brand Navigation -->
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-32 px-4 md:px-0">
       {brands.map(brand => {
         // Find a representative image for the brand (first song cover)
         const brandSong = allLyrics.find(s => s.data.brand === brand);
@@ -38,7 +38,7 @@ const featuredSongs = allLyrics.slice(0, 3);
           : (brandSong?.id.split('/')[0] || brand.toLowerCase().replace(/\s+/g, '-'));
 
         return (
-          <a href={`/${brandSlug}`} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)]" style={`--shadow: ${brandColor}33`}>
+          <a href={`/${brandSlug}`} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)] w-full" style={`--shadow: ${brandColor}33`}>
             <div class="absolute inset-0 bg-zinc-900 transition-colors group-hover:bg-zinc-800">
               {brandSong && (
                 <img src={brandSong.data.cover} class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-1000 filter blur-sm group-hover:blur-0" />
