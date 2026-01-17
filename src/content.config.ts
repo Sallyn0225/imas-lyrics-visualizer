@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const lyrics = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/lyrics" }),
+  loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/lyrics" }),
   schema: z.object({
     title: z.string(),
     brand: z.string(),

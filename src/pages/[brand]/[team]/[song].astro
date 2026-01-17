@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { parseLyrics } from '../../../utils/lyrics-parser';
+import { render } from 'astro:content';
 
 export async function getStaticPaths() {
   const allLyrics = await getCollection('lyrics');
 
-  return allLyrics.map((entry: any) => {
-    const brandSlug = entry.data.brand.toLowerCase().replace(/\s+/g, '-');
-    const teamSlug = (entry.data.team || 'other').toLowerCase().replace(/\s+/g, '-');
-    const songSlug = entry.id.split('/').pop()?.replace('.md', '');
+  return allLyrics.map((entry) => {
+    const segments = entry.id.split('/');
+    const brandSlug = segments[0] || 'other';
+    const teamSlug = segments[1] || 'other';
+    const songSlug = segments[2]?.replace('.md', '') || entry.id.replace('.md', '');
 
     return {
       params: {
@@ -22,366 +23,27 @@ export async function getStaticPaths() {
   });
 }
 
-const { entry } = Astro.props as { entry: any };
+const { entry } = Astro.props;
 const { title, brand, team, themeColor, cover, audio } = entry.data;
-const lyricSections = parseLyrics(entry.body || "");
-
-const intro = lyricSections.find((section: { type: string }) => section.type === 'intro');
-const bridge = lyricSections.find((section: { type: string }) => section.type === 'bridge-thin');
-const chorus = lyricSections.find((section: { type: string }) => section.type === 'chorus');
-const splitView = lyricSections.find((section: { type: string }) => section.type === 'split-view');
-const verticalStack = lyricSections.find((section: { type: string }) => section.type === 'vertical-stack');
-const chorusAlt = lyricSections.find((section: { type: string }) => section.type === 'chorus-alt');
-
-const keywords = [
-  { word: "夢", class: "kw-dream" },
-  { word: "愛", class: "kw-love" },
-  { word: "陽だまり", class: "kw-sun" },
-  { word: "リバティ", class: "kw-flower" },
-  { word: "Anniversary", class: "kw-gold" },
-  { word: "涙", class: "kw-tear" },
-  { word: "笑顔", class: "kw-smile" },
-  { word: "光", class: "kw-light" },
-  { word: "メモリー", class: "kw-memory" },
-];
-
-function enhanceText(text: string) {
-  let html = text;
-  keywords.forEach(kw => {
-    html = html.replace(new RegExp(kw.word, 'g'), `<span class="inline-block keyword ${kw.class}">${kw.word}</span>`);
-  });
-  return html;
-}
+const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${title} - ${brand}`} themeColor={themeColor}>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Noto+Serif+JP:wght@200;400;600;900&display=swap" rel="stylesheet">
+  <main class="max-w-4xl mx-auto px-6 py-32 min-h-screen">
+    <header class="mb-16 text-center">
+      <img src={cover} alt={title} class="w-48 h-48 mx-auto rounded-lg shadow-2xl mb-8" transition:name={`cover-${entry.id}`} />
+      <h1 class="text-5xl font-bold mb-4">{title}</h1>
+      <p class="text-zinc-400 uppercase tracking-widest">{brand} {team ? `✦ ${team}` : ''}</p>
+    </header>
 
-  <div class="fixed inset-0 -z-10 bg-[#0a0508] overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] pointer-events-none mix-blend-overlay"></div>
-    <div class="absolute inset-0 opacity-[0.05] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2200/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%221%22/%3E%3C/svg%3E');"></div>
-    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[var(--theme-alpha)] via-transparent to-[var(--theme-secondary)]" style={`--theme-alpha: ${themeColor}15; --theme-secondary: ${themeColor}0a`}></div>
-    <div id="orb-1" class="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] rounded-full blur-[120px] opacity-[0.08] animate-float-slow" style={`background-color: ${themeColor}`}></div>
-    <div id="orb-2" class="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] rounded-full blur-[100px] opacity-[0.06] animate-float-slower" style={`background-color: ${themeColor}`}></div>
-  </div>
+    <div class="prose prose-invert prose-pink mx-auto">
+      <Content />
+    </div>
 
-  <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
-
-  <main class="relative z-10 w-full overflow-x-hidden selection:bg-[var(--theme)] selection:text-white" style={`--theme: ${themeColor}`}>
-    <section class="min-h-[100svh] flex flex-col items-center justify-center text-center p-6 relative">
-      <div class="relative mb-8 md:mb-12 group perspective-1000 z-10">
-        <div class="absolute -inset-10 bg-gradient-to-tr from-[var(--theme)]/30 to-white/10 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-1000 animate-pulse-slow" style={`--theme: ${themeColor}`}></div>
-        <div class="relative w-64 h-64 md:w-[32rem] md:h-[32rem] rounded-full p-2 ring-1 ring-white/10 bg-white/5 backdrop-blur-sm">
-          <img src={cover} alt={title} class="w-full h-full object-cover rounded-full shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-spin-slow" transition:name={`cover-${entry.id}`} />
-          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>
-          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#0a0508] rounded-full border border-white/20 z-20"></div>
-        </div>
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
+      <div class="bg-zinc-900/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center gap-4">
+        <audio src={audio} controls class="w-full h-8"></audio>
       </div>
-
-      <div class="z-20 mix-blend-screen space-y-2">
-        <h1 class="text-6xl md:text-[9rem] font-cinzel font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/60 drop-shadow-[0_0_15px_var(--shadow)]" style={`--shadow: ${themeColor}88`}>
-          {title}
-        </h1>
-        <div class="flex items-center justify-center gap-4 text-white/50 font-serif tracking-[0.3em] uppercase text-xs md:text-sm">
-          <span class="w-8 h-px bg-gradient-to-r from-transparent to-[var(--theme)]" style={`--theme: ${themeColor}`}></span>
-          <span>{brand}</span>
-          <span class="text-[var(--theme)] mx-1" style={`--theme: ${themeColor}`}>✦</span>
-          <span>{team}</span>
-          <span class="w-8 h-px bg-gradient-to-l from-transparent to-[var(--theme)]" style={`--theme: ${themeColor}`}></span>
-        </div>
-      </div>
-
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-        <span class="text-[10px] uppercase tracking-[0.2em] text-white/40">Scroll</span>
-        <div class="w-px h-12 bg-gradient-to-b from-[var(--theme)] to-transparent" style={`--theme: ${themeColor}`}></div>
-      </div>
-    </section>
-
-    <div class="max-w-6xl mx-auto px-4 md:px-6 space-y-[30vh] md:space-y-[40vh] pb-[40vh]">
-      {intro && (
-        <section class="min-h-[50vh] flex flex-col items-center justify-center space-y-8 md:space-y-12">
-          {intro.lines?.map((line: string, i: number) => (
-            <p class="reveal-text text-2xl md:text-5xl font-serif font-thin tracking-[0.15em] text-white/80 leading-relaxed text-center" style={`transition-delay: ${i * 100}ms`} set:html={enhanceText(line)}></p>
-          ))}
-        </section>
-      )}
-
-      {bridge && (
-        <section class="relative py-20">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--theme)]/5 to-transparent blur-3xl -z-10" style={`--theme: ${themeColor}`}></div>
-          <div class="text-center max-w-3xl mx-auto reveal-blur">
-            <p class="font-great-vibes text-5xl md:text-7xl text-[var(--theme)]/90 mb-8 opacity-80 transform -rotate-2" style={`--theme: ${themeColor}`}>
-              " {bridge.lines?.[0]} "
-            </p>
-            <p class="font-serif text-lg md:text-2xl tracking-[0.2em] text-white/60 leading-loose">
-              {bridge.lines?.[1]}
-            </p>
-          </div>
-        </section>
-      )}
-
-      {chorus && (
-        <section class="relative">
-          <div class="sticky top-[20vh] text-[18vw] font-cinzel font-black text-[var(--theme)]/[0.03] text-center select-none pointer-events-none z-0 mix-blend-plus-lighter" style={`--theme: ${themeColor}`}>
-            {title.toUpperCase()}
-          </div>
-          <div class="relative z-10 space-y-16 md:space-y-20 mt-[-10vh]">
-            {chorus.lines?.map((line: string, i: number) => (
-              <div class={`reveal-slide flex ${i % 2 === 0 ? 'justify-start md:pl-20' : 'justify-end md:pr-20'}`}>
-                <div class={`relative max-w-[85vw] md:max-w-3xl ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
-                  <p class="text-3xl md:text-6xl font-serif font-medium tracking-wide text-white drop-shadow-md leading-tight" set:html={enhanceText(line)}></p>
-                  <div class={`h-0.5 bg-gradient-to-r from-[var(--theme)] to-transparent mt-4 opacity-50 transform origin-left transition-transform duration-1000 scale-x-0 group-hover:scale-x-100 ${i % 2 !== 0 ? 'rotate-180' : ''}`} style={`--theme: ${themeColor}`}></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {splitView && (
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 min-h-[60vh] items-center reveal-fade">
-          <div class="flex flex-col justify-center items-center md:items-end text-center md:text-right md:pr-16 md:border-r border-white/10 space-y-6">
-            {splitView.left?.map((line: string) => (
-              <p class="text-2xl md:text-4xl text-white/50 hover:text-white/90 transition-colors duration-500 font-serif" set:html={enhanceText(line)}></p>
-            ))}
-          </div>
-          <div class="flex flex-col justify-center items-center md:items-start text-center md:text-left md:pl-16 space-y-6">
-            {splitView.right?.map((line: string) => (
-              <p class="text-2xl md:text-4xl text-white/60 hover:text-[var(--theme)] transition-colors duration-500 font-serif italic" style={`--theme: ${themeColor}`} set:html={enhanceText(line)}></p>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {verticalStack && (
-        <section class="space-y-32 flex flex-col items-center py-20">
-          {verticalStack.lines?.map((line: string, i: number) => (
-            <div class="reveal-zoom sticky top-[30vh] bg-[#0a0508]/60 backdrop-blur-md px-6 py-4 rounded-xl border border-white/5 shadow-2xl">
-              <p class={`text-center tracking-[0.2em] font-serif ${i === 0 ? 'text-3xl md:text-5xl text-white' : i === 1 ? 'text-2xl md:text-4xl text-white/70' : i === 2 ? 'text-2xl md:text-4xl text-white/70' : 'text-4xl md:text-6xl text-[var(--theme)] font-bold'}`} style={`--theme: ${themeColor}`} set:html={enhanceText(line)}></p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {chorusAlt && (
-        <section class="relative">
-          <div class="relative z-10 space-y-16 md:space-y-20">
-            {chorusAlt.lines?.map((line: string, i: number) => (
-              <div class={`reveal-slide flex ${i % 2 === 0 ? 'justify-start md:pl-20' : 'justify-end md:pr-20'}`}>
-                <div class={`relative max-w-[85vw] md:max-w-3xl ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
-                  <p class="text-3xl md:text-6xl font-serif font-medium tracking-wide text-white drop-shadow-md leading-tight" set:html={enhanceText(line)}></p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   </main>
-
-  <div class="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-    <div class="glass-dock pointer-events-auto flex items-center gap-4 md:gap-6 p-3 md:p-4 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all hover:bg-black/60 hover:scale-[1.02] max-w-full md:max-w-2xl w-full">
-      <div class="relative w-10 h-10 md:w-14 md:h-14 flex-shrink-0">
-        <img src={cover} id="mini-thumb" class="w-full h-full rounded-full object-cover animate-spin-slow-paused border border-white/20" />
-        <div class="absolute inset-0 rounded-full shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]"></div>
-      </div>
-
-      <div class="flex-1 min-w-0 flex flex-col justify-center gap-1">
-        <div class="flex justify-between items-baseline px-1">
-          <h3 class="text-sm md:text-base font-bold text-white truncate pr-2">{title}</h3>
-          <span class="text-[10px] font-mono text-[var(--theme)] flex-shrink-0" id="time-display" style={`--theme: ${themeColor}`}>00:00</span>
-        </div>
-        <div class="h-1.5 md:h-2 w-full bg-white/10 rounded-full cursor-pointer group/track relative overflow-hidden" id="progress-container">
-          <div class="absolute inset-0 bg-white/5 group-hover/track:bg-white/10 transition-colors"></div>
-          <div id="progress-bar" class="h-full bg-gradient-to-r from-[var(--theme)] via-white to-[var(--theme)] w-0 rounded-full relative" style={`--theme: ${themeColor}`}>
-            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] scale-0 group-hover/track:scale-100 transition-transform"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 md:gap-4 pl-2 border-l border-white/10">
-        <div class="hidden md:flex items-center group/vol relative w-6 hover:w-24 transition-all duration-300 overflow-hidden">
-          <svg class="w-5 h-5 text-white/50 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
-          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" class="w-16 h-1 ml-2 bg-white/20 rounded-full appearance-none accent-[var(--theme)] cursor-pointer" style={`--theme: ${themeColor}`} />
-        </div>
-
-        <button id="play-btn" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white text-black hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-[var(--theme)]/20" style={`--theme: ${themeColor}`}>
-          <svg id="play-icon" class="w-4 h-4 md:w-5 md:h-5 ml-0.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          <svg id="pause-icon" class="hidden w-4 h-4 md:w-5 md:h-5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <audio id="main-audio" src={audio} preload="auto"></audio>
 </BaseLayout>
-
-<style>
-  :root {
-    --font-cinzel: 'Cinzel', serif;
-    --font-serif: 'Noto Serif JP', serif;
-    --font-script: 'Great Vibes', cursive;
-  }
-
-  .font-cinzel { font-family: var(--font-cinzel); }
-  .font-great-vibes { font-family: var(--font-script); }
-  .font-serif { font-family: var(--font-serif); }
-
-  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-  .animate-spin-slow-paused { animation: spin-slow 20s linear infinite; animation-play-state: paused; }
-
-  @keyframes float-slow { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -30px); } }
-  .animate-float-slow { animation: float-slow 15s ease-in-out infinite; }
-
-  @keyframes float-slower { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, 20px); } }
-  .animate-float-slower { animation: float-slower 20s ease-in-out infinite; }
-
-  @keyframes pulse-slow { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
-  .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
-
-  .reveal-text, .reveal-slide, .reveal-fade, .reveal-zoom, .reveal-up, .reveal-blur {
-    opacity: 0;
-    transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .reveal-text { transform: translateY(20px); filter: blur(5px); }
-  .reveal-text.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
-
-  .reveal-slide { transform: translateX(50px); }
-  .reveal-slide:nth-child(even) { transform: translateX(-50px); }
-  .reveal-slide.visible { opacity: 1; transform: translateX(0); }
-
-  .reveal-fade { opacity: 0; transform: scale(0.95); }
-  .reveal-fade.visible { opacity: 1; transform: scale(1); }
-
-  .reveal-zoom { opacity: 0; transform: scale(0.8) translateY(50px); }
-  .reveal-zoom.visible { opacity: 1; transform: scale(1) translateY(0); }
-
-  .reveal-blur { filter: blur(10px); transform: scale(1.1); }
-  .reveal-blur.visible { opacity: 1; filter: blur(0); transform: scale(1); }
-
-  .keyword { position: relative; transition: all 0.5s ease; }
-  .kw-dream { text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-  .kw-love { color: #ff699e; text-shadow: 0 0 15px #ff699e; }
-  .kw-sun { color: #f3d266; text-shadow: 0 0 15px #f3d266; }
-
-  .kw-flower::after { content: '✿'; position: absolute; top: -10px; right: -10px; font-size: 0.5em; color: #ff699e; opacity: 0; transition: opacity 0.5s; }
-  .visible .kw-flower::after { opacity: 0.6; animation: spin-slow 5s linear infinite; }
-
-  .kw-gold { background: linear-gradient(to right, #f3d266, #ff699e, #f3d266); -webkit-background-clip: text; color: transparent; background-size: 200% auto; animation: shine 3s linear infinite; }
-  @keyframes shine { to { background-position: 200% center; } }
-
-  .kw-tear { color: #a5f3fc; text-shadow: 0 0 10px #a5f3fc; }
-
-  .particle { position: absolute; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; pointer-events: none; animation: float-up linear infinite; }
-  @keyframes float-up { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 0.6; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
-</style>
-
-<script>
-  function init() {
-    const audio = document.getElementById('main-audio') as HTMLAudioElement | null;
-    const playBtn = document.getElementById('play-btn');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
-    const thumb = document.getElementById('mini-thumb');
-    const progressBar = document.getElementById('progress-bar');
-    const progressContainer = document.getElementById('progress-container');
-    const timeDisplay = document.getElementById('time-display');
-    const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement | null;
-
-    if (audio && playBtn) {
-      const togglePlay = () => {
-        if (!playIcon || !pauseIcon || !thumb) return;
-        if (audio.paused) {
-          audio.play();
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          thumb.style.animationPlayState = 'running';
-        } else {
-          audio.pause();
-          playIcon.classList.remove('hidden');
-          pauseIcon.classList.add('hidden');
-          thumb.style.animationPlayState = 'paused';
-        }
-      };
-
-      playBtn.onclick = togglePlay;
-
-      audio.ontimeupdate = () => {
-        const duration = isNaN(audio.duration) ? 0 : audio.duration;
-        const currentTime = audio.currentTime;
-        const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
-        if (progressBar) progressBar.style.width = `${percent}%`;
-        if (timeDisplay) timeDisplay.textContent = formatTime(currentTime);
-      };
-
-      if (progressContainer) {
-        progressContainer.onclick = (e) => {
-          const duration = isNaN(audio.duration) ? 0 : audio.duration;
-          if (duration <= 0) return;
-          const rect = progressContainer.getBoundingClientRect();
-          const percent = (e.clientX - rect.left) / rect.width;
-          audio.currentTime = percent * duration;
-        };
-      }
-
-      if (volumeSlider) {
-        volumeSlider.oninput = (e) => {
-          const target = e.target as HTMLInputElement | null;
-          if (!target) return;
-          audio.volume = parseFloat(target.value);
-        };
-      }
-
-    }
-
-    function formatTime(s: number) {
-      if (!s || isNaN(s)) return "00:00";
-      const m = Math.floor(s / 60);
-      const sec = Math.floor(s % 60);
-      return `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
-      });
-    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
-
-    document.querySelectorAll('.reveal-text, .reveal-slide, .reveal-fade, .reveal-zoom, .reveal-up, .reveal-blur').forEach(el => observer.observe(el));
-
-    document.querySelectorAll('.keyword').forEach(k => {
-      k.addEventListener('mouseenter', () => k.classList.add('animate-pulse'));
-      k.addEventListener('animationend', () => k.classList.remove('animate-pulse'));
-    });
-
-    const particleContainer = document.getElementById('particles');
-    if (particleContainer && particleContainer.childElementCount === 0) {
-      const createParticle = () => {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        const size = Math.random() * 4 + 2;
-        p.style.width = `${size}px`;
-        p.style.height = `${size}px`;
-        p.style.left = `${Math.random() * 100}vw`;
-        p.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        p.style.opacity = (Math.random() * 0.5 + 0.1).toString();
-        if (Math.random() > 0.7) {
-          p.style.background = `radial-gradient(circle, rgba(255,105,158,0.8) 0%, rgba(255,105,158,0) 70%)`;
-        }
-        particleContainer.appendChild(p);
-        p.addEventListener('animationend', () => p.remove());
-      };
-      for (let i = 0; i < 20; i++) setTimeout(createParticle, Math.random() * 5000);
-      const particleInterval = setInterval(createParticle, 800);
-      document.addEventListener('astro:before-preparation', () => clearInterval(particleInterval), { once: true });
-    }
-  }
-
-  document.addEventListener('astro:page-load', init);
-</script>

@@ -33,7 +33,7 @@ const featuredSongs = allLyrics.slice(0, 3);
         // Find a representative image for the brand (first song cover)
         const brandSong = allLyrics.find(s => s.data.brand === brand);
         const brandColor = brandSong?.data.themeColor || "#ffffff";
-        const brandSlug = brand.toLowerCase().replace(/\s+/g, '-');
+        const brandSlug = brandSong?.id.split('/')[0] || brand.toLowerCase().replace(/\s+/g, '-');
 
         return (
           <a href={`/${brandSlug}`} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)]" style={`--shadow: ${brandColor}33`}>

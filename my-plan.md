@@ -36,12 +36,12 @@
 ## 4. 核心功能实现方案
 
 ### 4.1 “一曲一格”的实现 (The Unique Style)
-每一首歌曲都是一个独立的 `.astro` 页面，或者通过 Astro 内容集合（Content Collections）渲染。
-- **实现方式**：AI 辅助生成。您提供 Markdown 歌词，AI 根据歌曲风格生成包含特定 HTML 结构、排版样式和 `<style>` 标签的页面。
-- **个性化范围**：
-  - 变量控制：背景色、主题色、字体库引用。
-  - 布局定制：歌词居中、分栏或错落排版。
-  - 特效：例如《Shiny Colors》的透明感特效，或《Million Live》的华丽舞台感。
+本项目采用 **“元数据驱动 + 独立页面定制”** 的架构实现真正的个性化展示。
+- **元数据 (Content Collections)**：在 `/src/content/lyrics/` 中通过 Markdown 记录歌曲的基本信息（标题、品牌、封面、音频等）。这些数据用于生成首页列表和搜索索引。
+- **独立页面 (Custom Astro Pages)**：每一首需要深度定制视觉效果的歌曲，都在 `/src/pages/[brand]/[team]/[song].astro` 对应路径下创建一个独立的 Astro 文件。
+- **保底模板 (Fallback Template)**：项目保留了动态路由 `src/pages/[brand]/[team]/[song].astro` 作为通用模板。如果某首歌曲尚未创建独立页面，系统会自动回退到此模板展示基础内容。
+- **实现方式**：AI 辅助生成。用户提供歌词和风格需求，AI 参考基础逻辑生成包含特定 HTML 结构、排版样式、专属动画和交互逻辑的独立 Astro 页面。
+
 
 ### 4.2 歌词展示逻辑
 - **数据源**：直接读取 `/src/content/lyrics/` 下的 Markdown 文件。
