@@ -42,3 +42,6 @@ Search is powered by **Pagefind**, a static search library.
 ## 5. View Transitions
 
 Astro's built-in **View Transitions** are used to provide a seamless SPA-like feel. The album cover, for instance, uses a transition name to "fly" between the list view and the detail view, maintaining visual continuity.
+
+> [!IMPORTANT]
+> Since View Transitions do not perform a full page reload, all client-side JavaScript must be handled carefully to avoid "orphaned" DOM references. See **[View Transitions Scripting Guide](./VIEW_TRANSITIONS_GUIDE.md)** for mandatory implementation standards.
