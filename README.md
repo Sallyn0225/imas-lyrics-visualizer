@@ -1,34 +1,62 @@
-# iDOLM@STER Lyrics Archive
+<div align="center">
 
-> **"One Song, One Style"** — A high-end, immersive visual storytelling experience for the lyrics of the iDOLM@STER universe.
+# 🎵 iDOLM@STER Lyrics Archive
 
-iDOLM@STER Lyrics Archive is a modern web application built with **Astro 5** and **Tailwind CSS 4**, designed to provide more than just text. Every song is treated as a unique visual performance, featuring custom players, keyword-based VFX, and scroll-driven animations.
+**"One Song, One Style"** — *A high-end, immersive visual storytelling experience for the iDOLM@STER universe.*
 
-## ✨ Core Features
+[![Astro](https://img.shields.io/badge/Astro-5.0-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-- 🎭 **Immersive Visuals**: Song-specific layouts (`layoutType`) that match the group's aesthetic.
-- 🎵 **Custom Audio Player**: A glassmorphic, responsive player integrated with the song's theme color.
-- ✨ **Keyword VFX**: Automatic highlighting and special effects for specific lyrical keywords (e.g., "夢", "愛", "光").
-- 📜 **Scroll-Driven Animations**: Content reveals and transforms as you scroll, using Intersection Observer and CSS animations.
-- 🔍 **Static Search**: Fast, client-side search powered by **Pagefind**, enabling instant discovery across the entire archive.
-- 📱 **Responsive Design**: Polished experience across mobile, tablet, and desktop.
-- ⚡ **Performance**: Static site generation for near-instant load times and SEO optimization.
+</div>
+
+---
+
+## 🌟 One Song, One Style
+
+Every song in the archive is treated as a unique visual performance. We move beyond static text to create a digital atmosphere that resonates with the music's soul.
+
+| Song Example | Visual Identity | Key Techniques |
+| :--- | :--- | :--- |
+| **Shiny Stories** | ✨ Iridescent Glassmorphism | Backdrop filters, frosted glass layers, dynamic gradients. |
+| **Sunfaded** | 🎞️ Nostalgic Film Grain | CSS noise textures, sepia-toned overlays, serif typography. |
+| **Overexposed** | 💡 Ethereal Bloom | High-contrast lighting, glow effects, motion-blurred reveals. |
+
+---
+
+## ✨ Feature Highlights
+
+- 🎭 **Immersive Visuals**: Custom layouts (`layoutType`) and theme palettes meticulously crafted for each unit's aesthetic.
+- 🎵 **Artistic Audio Player**: A glassmorphic, responsive player that dynamically adapts to the song's visual theme.
+- ✨ **Keyword VFX**: Real-time rendering of special effects for evocative lyrics (e.g., "夢", "愛", "光").
+- 📜 **Scroll-Driven Storytelling**: Content that breathes and transforms as you scroll, powered by modern CSS and Intersection Observer.
+- 🔍 **Instant Discovery**: Ultra-fast, client-side search indexing via **Pagefind** for seamless navigation.
+- 📱 **Premium Experience**: Fully responsive design ensuring the "stage" looks perfect on mobile, tablet, and desktop.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Astro 5](https://astro.build/) (Content Collections, View Transitions)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **Search**: [Pagefind](https://pagefind.app/)
-- **Fonts**: Google Fonts (Cinzel, Great Vibes, Noto Serif JP)
-- **Infrastructure**: Multi-platform deployment (Vercel, Netlify, Cloudflare Pages)
+| Technology | Role |
+| :--- | :--- |
+| **Astro 5** | Static Site Generation & Content Collections |
+| **Tailwind CSS 4** | Next-gen utility-first styling engine |
+| **Pagefind** | Static search library for lightning-fast results |
+| **TypeScript** | Type-safe logic and component development |
+| **View Transitions** | Fluid, app-like navigation between pages |
 
-## 🚀 Quick Start
+---
+
+## 🚀 Getting Started
+
+<details>
+<summary><b>Installation & Development</b></summary>
 
 ### Prerequisites
 - Node.js (Latest LTS)
-- npm or pnpm
+- npm, pnpm, or yarn
 
-### Installation
+### Setup
 ```bash
 # Clone the repository
 git clone https://github.com/your-repo/idolmaster-lyrics.git
@@ -39,7 +67,7 @@ npm install
 
 ### Development
 ```bash
-# Start the dev server
+# Start the development server
 npm run dev
 ```
 
@@ -52,23 +80,33 @@ npm run build
 # Preview the build locally
 npm run preview
 ```
+</details>
 
-## 🌐 Deployment
+<details>
+<summary><b>Deployment</b></summary>
 
-The project is architected for seamless deployment across major static hosting platforms, utilizing specialized configurations for optimal performance and reliability.
+The project is architected for multi-platform deployment:
+- **Vercel**: Optimized via `vercel.json`.
+- **Netlify**: Configured via `netlify.toml`.
+- **Cloudflare Pages**: High-performance headers via `public/_headers`.
+</details>
 
-- **Vercel**: Optimized via `vercel.json` for clean URLs and routing.
-- **Netlify**: Configured through `netlify.toml` for build optimization and custom headers.
-- **Cloudflare Pages**: Leverages `public/_headers` for high-performance security and caching.
-
-To deploy, simply connect your repository to your preferred platform. The build command is `npm run build` and the output directory is `dist`.
+---
 
 ## 📖 Documentation
 
-For detailed guides on how to contribute or add new songs, please refer to:
-- [Contributing Guide](./docs/CONTRIBUTING.md) — How to add new lyrics and understand the data structure.
-- [Collaborative Framework](./AGENTS.MD) — How AI agents and humans work together.
+Explore our guides to understand the project's inner workings:
+- [**Contributing Guide**](./docs/CONTRIBUTING.md) — How to add new lyrics and master the data structure.
+- [**Agent Collaboration**](./AGENTS.MD) — How Sisyphus and other AI agents maintain the archive's soul.
 
-## 📄 License
+---
 
-This project is for educational and fan purposes only. iDOLM@STER is a trademark of BANDAI NAMCO Entertainment Inc.
+## 📄 License & Disclaimer
+
+This project is an open-source fan creation for educational and appreciation purposes.
+
+**Disclaimer**: *The iDOLM@STER* is a trademark of **BANDAI NAMCO Entertainment Inc.** All musical content and related intellectual property belong to their respective owners.
+
+<div align="center">
+  <sub>Built with ❤️ for Producers around the world.</sub>
+</div>
