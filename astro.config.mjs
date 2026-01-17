@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://Sallyn0225.github.io',
-  base: '/imas-lyrics-visualizer',
+  base: process.env.VERCEL ? '/' : '/imas-lyrics-visualizer',
   vite: {
     plugins: [tailwindcss()]
   }
