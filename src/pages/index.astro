@@ -38,7 +38,7 @@ const featuredSongs = allLyrics.slice(0, 3);
           : (brandSong?.id.split('/')[0] || brand.toLowerCase().replace(/\s+/g, '-'));
 
         return (
-          <a href={`${import.meta.env.BASE_URL}/${brandSlug}`} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)] w-full" style={`--shadow: ${brandColor}33`}>
+          <a href={`${import.meta.env.BASE_URL}/${brandSlug}`.replace(/\/+/g, '/')} class="group relative aspect-video overflow-hidden rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[var(--shadow)] w-full" style={`--shadow: ${brandColor}33`}>
             <div class="absolute inset-0 bg-zinc-900 transition-colors group-hover:bg-zinc-800">
               {brandSong && (
                 <img src={brandSong.data.cover} class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-1000 filter blur-sm group-hover:blur-0" />
