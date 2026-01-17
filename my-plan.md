@@ -1,88 +1,60 @@
-# 偶像大师歌词库 (iDOLM@STER Lyrics Archive) 开发文档
+# 偶像大师歌词库 (iDOLM@STER Lyrics Archive) 核心规划蓝图
 
-## 1. 项目概述
-本项目是一个基于 **Astro** 框架开发的静态歌词展示网站。旨在为《偶像大师》系列的每一首歌曲提供极致的、个性化的视觉展示。
-- **核心理念**：一曲一格（Every song has its own soul）。
-- **技术目标**：高性能（SSG）、无服务器化、多端适配、丝滑转场。
-- **部署平台**：Vercel / Cloudflare Pages。
+## 1. 项目愿景 (Vision)
+本项目旨在突破传统歌词展示的边界，基于 **Astro 5** 架构，为《偶像大师》系列的每一首歌曲提供极致的、个性化的视觉叙事体验。
+- **核心理念**：一曲一格 (Every song has its own soul)。
+- **技术目标**：高性能（SSG）、多平台适配、丝滑的 View Transitions。
 
-## 2. 技术栈
-- **框架**：[Astro](https://astro.build/) (采用 SSG 静态生成模式)
-- **样式**：Tailwind CSS (基础框架) + 原生 CSS/Sass (针对单曲定制)
-- **存储**：Cloudflare R2 (存放 MP3 音频及大尺寸图片)
-- **搜索**：[Pagefind](https://pagefind.app/) (静态全文检索库)
-- **动画**：Astro View Transitions + Framer Motion / GSAP (可选)
-- **数据格式**：Markdown (歌词数据源) + Astro Pages (最终呈现)
+## 2. 技术栈 (Tech Stack)
+- **框架**：[Astro 5](https://astro.build/) (全量 SSG 模式)
+- **样式**：Tailwind CSS 4 (原子化 CSS) + 原生 CSS 变量 (针对单曲定制)
+- **存储**：Cloudflare R2 (存放 MP3 音频及 4K 视觉资源)
+- **搜索**：[Pagefind](https://pagefind.app/) (高性能静态全文检索)
+- **动画**：Astro View Transitions + CSS Scroll-driven Animations
+- **数据**：Markdown Content Collections (元数据中心)
 
-## 3. 目录结构设计
+## 3. 架构设计 (Architecture)
 ```text
 /src
-  /components       # 通用组件（导航栏、搜索框、全局播放器底层）
-  /layouts          # 基础布局（首页布局、品牌列表布局、歌词页布局）
+  /components       # 全局 UI 组件（导航、搜索、基础播放器）
+  /layouts          # 抽象布局（品牌母版、通用歌词页模版）
   /pages
-    index.astro     # 首页（品牌入口）
+    index.astro     # 门户（品牌选择界面）
     /[brand]
-      index.astro   # 品牌首页（队伍列表 + 品牌直属歌曲）
+      index.astro   # 品牌主页（队伍矩阵 + 独立曲目）
       /[team]
-        index.astro # 队伍页面（歌曲列表）
-        [song].astro # 歌曲详情页（个性化代码）
-      [song].astro   # 无队伍的歌曲详情页（个性化代码）
+        index.astro # 队伍详情（曲目列表）
+        [song].astro # 定制化单曲页面 (Soul injection point)
   /content
-    /lyrics         # 存放原始 Markdown 歌词数据
+    /lyrics         # 原始歌词元数据 (SSOT - Single Source of Truth)
 /public
-  /assets           # 本地静态资源（Logo、小图标）
+  _headers          # 针对 Cloudflare/Netlify 的安全与缓存配置
 ```
 
-## 4. 核心功能实现方案
+## 4. 核心功能实现路径
 
-### 4.1 “一曲一格”的实现 (The Unique Style)
-本项目采用 **“元数据驱动 + 独立页面定制”** 的架构实现真正的个性化展示。
-- **元数据 (Content Collections)**：在 `/src/content/lyrics/` 中通过 Markdown 记录歌曲的基本信息（标题、品牌、封面、音频等）。这些数据用于生成首页列表和搜索索引。
-- **独立页面 (Custom Astro Pages)**：每一首需要深度定制视觉效果的歌曲，都在 `/src/pages/[brand]/[team]/[song].astro` 对应路径下创建一个独立的 Astro 文件。
-- **保底模板 (Fallback Template)**：项目保留了动态路由 `src/pages/[brand]/[team]/[song].astro` 作为通用模板。如果某首歌曲尚未创建独立页面，系统会自动回退到此模板展示基础内容。
-- **实现方式**：AI 辅助生成。用户提供歌词和风格需求，AI 参考基础逻辑生成包含特定 HTML 结构、排版样式、专属动画和交互逻辑的独立 Astro 页面。
+### 4.1 “一曲一格”的灵魂注入 (Soul Injection)
+- **元数据驱动**：Markdown 记录核心信息（BPM、主题色、音频 URL）。
+- **个性化 Astro 页面**：为每首重点歌曲在 `/pages` 路径下创建独立 `.astro` 文件，实现专属视觉布局与动效。
+- **动态回退机制**：当未创建定制页面时，自动采用 `[song].astro` 动态模板展示基础内容。
 
+### 4.2 极致视听体验
+- **Hero Transitions**：利用 View Transitions 实现封面图跨页面的无缝衔接。
+- **响应式排版**：针对移动端优化长歌词阅读，针对 PC 端利用宽屏展示复杂的 CSS 背景粒子。
 
-### 4.2 歌词展示逻辑
-- **数据源**：直接读取 `/src/content/lyrics/` 下的 Markdown 文件。
-- **音频支持**：页面集成简单的 HTML5 `<audio>` 播放器，供用户手动播放音频，不要求同步滚动。
+## 5. 搜索与索引
+- **Pagefind 集成**：构建阶段自动扫描 HTML，生成轻量级索引，支持即时搜索。
 
-### 4.3 搜索功能
-由于是静态网站，使用 **Pagefind**：
-- 在构建阶段，Pagefind 会扫描所有生成的 HTML。
-- 在前端提供一个轻量级的搜索框，支持歌名、品牌、队伍关键词检索。
+## 6. 部署与分发 (Deployment)
+项目已实现 **多平台原生兼容**，通过专项配置文件确保在不同 CDN 边缘的行为一致性：
+- **Vercel**: 通过 `vercel.json` 处理 Clean URLs 和重定向。
+- **Netlify**: 通过 `netlify.toml` 优化构建环境与边缘规则。
+- **Cloudflare Pages**: 通过 `public/_headers` 强制执行安全策略与缓存控制。
 
-### 4.4 品牌与分类逻辑
-- **Frontmatter 设计**：在每个 Markdown 歌词或歌曲页面顶部定义元数据：
-  ```markdown
-  ---
-  title: "M@STERPIECE"
-  brand: "765PRO ALLSTARS"
-  team: "" # 若无则留空
-  cover: "https://r2.example.com/covers/masterpiece.jpg"
-  audio: "https://r2.example.com/audio/masterpiece.mp3"
-  themeColor: "#e0115f"
-  ---
-  ```
+## 7. 开发协作流程
+- **Sisyphus (Orchestrator)** 负责维护上述基础设施与自动化部署链路。
+- **UI/UX Engineer** 负责单曲页面的“灵魂注入”。
+- **Librarian** 负责资产管理与字体优化。
 
-## 5. 视觉与交互规范
-- **转场动画**：启用 Astro 的 `ViewTransitions`。当用户从列表页点击进入歌词页时，封面图通过 `view-transition-name` 实现跨页面的平滑放大。
-- **响应式适配**：
-  - **移动端**：歌词占据全屏，优化阅读体验。
-  - **PC端**：利用宽屏展示更多视觉元素（如背景动画、大图）。
-
-## 6. AI 辅助开发工作流 (Prompt 指导)
-当您需要新增一首歌时，可以按照以下步骤给 AI 发指令：
-
-1.  **输入**：提供歌曲的 Markdown 歌词、所属品牌、主题风格描述。
-2.  **指令示例**：
-    > “请基于 Astro 框架为我生成一个歌曲页面。歌曲是《[歌名]》，风格要求是[例如：和风/摇滚/清新]。
-    > 1. 请读取 Frontmatter 中的音频和歌词内容。
-    > 2. 页面背景需要有符合歌曲意境的 CSS 装饰或动画。
-    > 3. 歌词排版请根据歌曲节奏进行错落布局或分段处理。
-    > 4. 适配移动端阅读。”
-
-## 7. 部署与维护
-1.  **资源托管**：音频和高分辨率大图托管于 Cloudflare R2。
-2.  **代码托管**：GitHub。
-3.  **自动部署**：关联 Vercel 或 Cloudflare Pages。
+---
+*Last Updated: 2026-01-17 | 致力于打造极致的偶像美学数字化档案*

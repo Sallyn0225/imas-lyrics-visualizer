@@ -20,7 +20,7 @@ iDOLM@STER Lyrics Archive is a modern web application built with **Astro 5** and
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **Search**: [Pagefind](https://pagefind.app/)
 - **Fonts**: Google Fonts (Cinzel, Great Vibes, Noto Serif JP)
-- **Deployment**: Optimized for static hosting (Vercel, Netlify, Cloudflare Pages)
+- **Infrastructure**: Multi-platform deployment (Vercel, Netlify, Cloudflare Pages)
 
 ## 🚀 Quick Start
 
@@ -53,10 +53,21 @@ npm run build
 npm run preview
 ```
 
+## 🌐 Deployment
+
+The project is architected for seamless deployment across major static hosting platforms, utilizing specialized configurations for optimal performance and reliability.
+
+- **Vercel**: Optimized via `vercel.json` for clean URLs and routing.
+- **Netlify**: Configured through `netlify.toml` for build optimization and custom headers.
+- **Cloudflare Pages**: Leverages `public/_headers` for high-performance security and caching.
+
+To deploy, simply connect your repository to your preferred platform. The build command is `npm run build` and the output directory is `dist`.
+
 ## 📖 Documentation
 
 For detailed guides on how to contribute or add new songs, please refer to:
 - [Contributing Guide](./docs/CONTRIBUTING.md) — How to add new lyrics and understand the data structure.
+- [Collaborative Framework](./AGENTS.MD) — How AI agents and humans work together.
 
 ## 📄 License
 

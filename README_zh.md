@@ -20,7 +20,7 @@ iDOLM@STER Lyrics Archive 是一个基于 **Astro 5** 和 **Tailwind CSS 4** 构
 - **样式**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **搜索**: [Pagefind](https://pagefind.app/)
 - **字体**: Google Fonts (Cinzel, Great Vibes, Noto Serif JP)
-- **部署**: 针对静态托管（Vercel, Netlify, Cloudflare Pages）进行了优化
+- **基础设施**: 多平台部署支持 (Vercel, Netlify, Cloudflare Pages)
 
 ## 🚀 快速开始
 
@@ -53,10 +53,21 @@ npm run build
 npm run preview
 ```
 
-## 📖 文档
+## 🌐 部署指南
 
-关于如何贡献代码或添加新歌的详细指南，请参考：
+本项目采用工业级配置，支持在主流静态托管平台无缝部署，确保每一曲视觉盛宴都能以最佳状态呈现。
+
+- **Vercel**: 通过 `vercel.json` 优化路由映射与 Clean URLs。
+- **Netlify**: 利用 `netlify.toml` 精细化构建流程与 HTTP 响应头。
+- **Cloudflare Pages**: 使用 `public/_headers` 提供高性能的安全防护与缓存策略。
+
+只需将您的代码仓库关联至上述任一平台，设置构建指令为 `npm run build`，输出目录为 `dist` 即可完成自动化部署。
+
+## 📖 相关文档
+
+关于如何贡献代码或了解协作模式，请参考：
 - [贡献指南](./docs/CONTRIBUTING.md) — 了解如何添加新歌词以及数据结构。
+- [代理协作体系](./AGENTS.MD) — 探索 AI 代理与人类如何共同注入“灵魂”。
 
 ## 📄 开源协议
 

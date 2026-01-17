@@ -5,24 +5,30 @@ import '@pagefind/default-ui/css/ui.css';
 <div id="search" class="relative z-50"></div>
 
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    // Only load if not already loaded to prevent duplicate instances
-    if (document.querySelector('#search')?.innerHTML === '') {
-      const loadPagefind = async () => {
-        const { PagefindUI } = await import('@pagefind/default-ui');
-        new PagefindUI({
-          element: "#search",
-          showSubResults: true,
-          showImages: false,
-          translations: {
-            placeholder: "Search Lyrics...",
-            zero_results: "No songs found for [SEARCH_TERM]"
-          }
-        });
-      };
-      loadPagefind();
+  let pagefindInstance: any;
+
+  const initSearch = async () => {
+    const searchEl = document.querySelector('#search');
+    if (!searchEl) return;
+    if (searchEl.innerHTML.trim() !== '') return;
+
+    try {
+      const { PagefindUI } = await import('@pagefind/default-ui');
+      pagefindInstance = new PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        showImages: false,
+        translations: {
+          placeholder: "Search Lyrics...",
+          zero_results: "No songs found for [SEARCH_TERM]"
+        }
+      });
+    } catch (e) {
+      console.error('Failed to load Pagefind:', e);
     }
-  });
+  };
+
+  document.addEventListener('astro:page-load', initSearch);
 </script>
 
 <style is:global>
