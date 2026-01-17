@@ -36,6 +36,7 @@
     - 编写该歌曲专用的 HTML 骨架与 CSS 动画。
     - 实现与歌词情感共鸣的交互效果（如：随着副歌滚动的光晕）。
     - **响应式审计**：执行 `docs/RESPONSIVE_GUIDE.md` 中的 [Mobile Compatibility Checklist]。
+    - **脚本生命周期审计**：确保所有脚本初始化逻辑遵循 `docs/VIEW_TRANSITIONS_GUIDE.md`，防止导航后失效。
 
 ---
 
@@ -50,6 +51,7 @@
 - [ ] **索引页同步**：品牌主页或队伍主页的 `href` 是否指向了正确的 Slug？
 - [ ] **资产加载**：`getEntry` 调用时是否使用了正确的英文 Slug？
 - [ ] **响应式验证**：在 375px (iPhone SE) 宽度下是否无横向滚动条？
+- [ ] **脚本生命周期**：脚本是否已包装在 `astro:page-load` 中？是否存在顶层 DOM 引用？ (参考 `docs/VIEW_TRANSITIONS_GUIDE.md`)
 
 ---
 
