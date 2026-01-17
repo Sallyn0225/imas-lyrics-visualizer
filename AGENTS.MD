@@ -19,13 +19,16 @@
 为了实现真正的个性化，新增歌曲遵循 **“元数据注册 -> 灵魂注入”** 的分工模式：
 
 ### 步骤 A：元数据注册 (Sisyphus)
-1. 在 `src/content/lyrics/[brand]/[team]/[song].md` 创建结构化数据。
-2. 确保 `themeColor` 与 `layoutType` 准确定义了视觉基调。
+1. **查重校验**：在创建新曲目前，检查 `src/content/lyrics` 是否已存在同名或同品牌曲目，避免因中英文命名不一致（如 `gkmas` vs `Gakuen`）导致的冗余。
+2. 在 `src/content/lyrics/[brand]/[team]/[song].md` 创建结构化数据。
+3. **架构验证**：运行 `npm run build` 或使用 `Explore` 代理检查 Frontmatter 完整性（必须包含 `title`, `brand`, `cover`, `audio`）。
+4. 确保 `themeColor` 与 `layoutType` 准确定义了视觉基调。
 
 ### 步骤 B：灵魂注入 (Frontend UI/UX Engineer)
 1. **输入**：Markdown 元数据、歌曲意境描述（如：空灵、华丽、赛博朋克）。
 2. **执行**：
     - 在 `src/pages/[brand]/[team]/[song].astro` 构建专属页面。
+    - **路由同步**：若自定义页面 slug（如 `sunfaded`）与元数据文件名（如 `サンフェーデッド`）不一致，必须在路由逻辑中建立映射。
     - 编写该歌曲专用的 HTML 骨架与 CSS 动画。
     - 实现与歌词情感共鸣的交互效果（如：随着副歌滚动的光晕）。
 

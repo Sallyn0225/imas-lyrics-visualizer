@@ -1,0 +1,324 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+// Retrieve metadata
+const songEntry = await getEntry('lyrics', 'gkmas/shinosawa-hiro/サンフェーデッド');
+const title = songEntry?.data.title || "サンフェーデッド";
+const brand = songEntry?.data.brand || "Gakuen Idolmaster";
+const team = songEntry?.data.team || "Shinosawa Hiro";
+const themeColor = songEntry?.data.themeColor || "#a6a2be"; // Muted purple-grey default
+const cover = songEntry?.data.cover || "";
+const audio = songEntry?.data.audio || "";
+
+const lyrics = [
+  { 
+    type: 'intro', 
+    lines: [
+      "あ, 日焼け止め　塗らないままでいたな",
+      "あんなにも大きな声が肌すれすれに来ることも,",
+      "光は指輪みたいになること, も",
+      "いずれ全部　明るい道の秘密のように思い出す."
+    ] 
+  },
+  { 
+    type: 'verse', 
+    lines: [
+      "僕たちは (いつ出会うだろう？)",
+      "出会うときは",
+      "僕にとって正しい人の,",
+      "僕にとって正しい声でいる."
+    ] 
+  },
+  { 
+    type: 'bridge', 
+    lines: [
+      "游ぶ指先や睫毛や",
+      "髪留めがあなたたちの姿を覚えている",
+      "煌きと暗やみの層に躍り入る僕のことを誰かが見てる",
+      "安心して, 僕は帰らない, ほらね"
+    ] 
+  },
+  { 
+    type: 'chorus', 
+    lines: [
+      "どこでも　ああ, 何度でも目を瞑るほど日が差す方で,",
+      "僕は言う,",
+      "僕は禁じる,",
+      "僕は覚える,",
+      "僕は慄く,",
+      "僕は踊る,",
+      "僕は生れる,",
+      "僕は褪せる,",
+      "僕は判断する."
+    ] 
+  }
+];
+
+// Keywords for auto-highlighting
+const keywords = [
+  { word: "光", class: "kw-light" },
+  { word: "日", class: "kw-sun" },
+  { word: "明るい", class: "kw-bright" },
+  { word: "煌き", class: "kw-sparkle" },
+  { word: "秘密", class: "kw-secret" },
+  { word: "褪せる", class: "kw-fade" },
+];
+
+function enhanceText(text: string) {
+  let html = text;
+  keywords.forEach(kw => {
+    html = html.replace(new RegExp(kw.word, 'g'), `<span class="inline-block keyword ${kw.class}">${kw.word}</span>`);
+  });
+  return html;
+}
+---
+
+<BaseLayout title={`${title} - ${team}`} themeColor={themeColor}>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Sunfaded Visual Architecture -->
+  <div class="fixed inset-0 -z-10 bg-[#e3e1e6] overflow-hidden transition-colors duration-1000" id="bg-layer">
+    <!-- Base Gradient: Purple-Grey to Overexposed White -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#2e2a36] via-[#6d687a] to-[#d4d1da] opacity-90"></div>
+    
+    <!-- Film Grain / Noise -->
+    <div class="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" 
+         style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%221%22/%3E%3C/svg%3E');">
+    </div>
+
+    <!-- Light Leaks / Sun Flares -->
+    <div class="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-white blur-[150px] opacity-[0.15] mix-blend-soft-light animate-pulse-slow"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#a6a2be] blur-[120px] opacity-[0.2] mix-blend-overlay"></div>
+    
+    <!-- Vignette -->
+    <div class="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-black/30 pointer-events-none"></div>
+  </div>
+
+  <main class="relative z-10 w-full min-h-screen overflow-x-hidden text-[#2e2a36] selection:bg-[#a6a2be] selection:text-white">
+    
+    <!-- Hero Section -->
+    <section class="min-h-[100svh] flex flex-col items-center justify-center relative p-6">
+      <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
+        <h1 class="text-[20vw] font-black font-serif tracking-tighter scale-150 text-[#2e2a36]">SUNFADED</h1>
+      </div>
+
+      <div class="z-10 flex flex-col items-center gap-8">
+        <div class="relative group perspective-1000">
+          <div class="absolute -inset-4 bg-white/40 blur-2xl rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="w-64 h-64 md:w-80 md:h-80 bg-gray-200 p-2 shadow-2xl transform transition-transform duration-700 group-hover:rotate-1 rotate-[-2deg]">
+            <img src={cover} alt={title} class="w-full h-full object-cover filter contrast-125 sepia-[0.2] grayscale-[0.3]" transition:name="cover-sunfaded" />
+            <!-- Film overlay on image -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#2e2a36]/20 to-transparent mix-blend-multiply pointer-events-none"></div>
+            <div class="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/scratched-glint.png')]"></div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-2 mix-blend-hard-light">
+          <h1 class="text-4xl md:text-7xl font-zen font-black tracking-tight text-[#2e2a36] drop-shadow-sm uppercase">
+            {title}
+          </h1>
+          <p class="text-sm md:text-base font-serif tracking-[0.3em] text-[#4a4550] uppercase">
+            {team}
+          </p>
+        </div>
+      </div>
+      
+      <div class="absolute bottom-10 animate-bounce text-[#2e2a36]/50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+      </div>
+    </section>
+
+    <!-- Lyrics Content -->
+    <div class="max-w-4xl mx-auto px-6 pb-40 space-y-[20vh]">
+
+      <!-- Intro: Monologue style -->
+      <section class="py-20 flex flex-col items-center space-y-6 text-center">
+        {lyrics[0].lines.map((line, i) => (
+          <p class="reveal-fade text-lg md:text-2xl font-serif font-medium text-[#4a4550] leading-loose" 
+             style={`transition-delay: ${i * 200}ms`} 
+             set:html={enhanceText(line)} />
+        ))}
+      </section>
+
+      <!-- Verse: Asymmetric/Dialogue -->
+      <section class="relative min-h-[50vh] flex flex-col justify-center">
+        <div class="absolute right-0 top-0 w-px h-full bg-[#2e2a36]/10"></div>
+        <div class="space-y-12">
+          {lyrics[1].lines.map((line, i) => (
+            <div class={`reveal-slide flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+              <p class="text-xl md:text-3xl font-zen font-bold text-[#2e2a36] bg-white/60 backdrop-blur-sm px-4 py-2 shadow-sm inline-block transform -skew-x-6"
+                 set:html={enhanceText(line)} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Bridge: Introspective -->
+      <section class="py-20 relative overflow-hidden rounded-lg bg-[#2e2a36] text-[#e3e1e6] p-8 md:p-16 shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+        <div class="relative z-10 space-y-8 text-center md:text-left">
+          {lyrics[2].lines.map((line, i) => (
+            <p class="reveal-blur text-xl md:text-2xl font-serif tracking-wider opacity-90 leading-relaxed border-l-2 border-[#a6a2be]/50 pl-6"
+               style={`transition-delay: ${i * 150}ms`}
+               set:html={enhanceText(line)} />
+          ))}
+        </div>
+      </section>
+
+      <!-- Chorus: Overexposed / Bloom / Climax -->
+      <section class="relative py-32 space-y-4 text-center">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-transparent via-white/80 to-transparent blur-3xl -z-10 mix-blend-soft-light pointer-events-none"></div>
+        {lyrics[3].lines.map((line, i) => (
+          <div class="reveal-flash overflow-hidden">
+            <p class={`font-zen font-black tracking-tight leading-none
+              ${i === 0 ? 'text-2xl md:text-4xl mb-12 text-[#4a4550]' : 'text-5xl md:text-8xl text-[#2e2a36] uppercase'}`}
+              style={`text-shadow: 0 0 ${i > 0 ? '30px' : '0'} rgba(166, 162, 190, 0.6)`}
+              set:html={enhanceText(line)} />
+          </div>
+        ))}
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Player Dock (Adapted for Light/Film Theme) -->
+  <div class="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <div class="pointer-events-auto flex items-center gap-4 p-2 pr-6 rounded-full bg-[#e3e1e6]/90 backdrop-blur-xl border border-[#2e2a36]/10 shadow-2xl text-[#2e2a36] max-w-full md:max-w-xl w-full transition-transform hover:scale-[1.01]">
+      
+      <div class="relative w-12 h-12 flex-shrink-0">
+        <img src={cover} id="mini-thumb" class="w-full h-full rounded-full object-cover animate-spin-slow-paused border-2 border-white shadow-md" />
+      </div>
+
+      <div class="flex-1 flex flex-col justify-center gap-1">
+        <div class="flex justify-between items-baseline text-xs font-bold tracking-widest uppercase opacity-70">
+          <span>{title}</span>
+          <span id="time-display" class="font-mono">00:00</span>
+        </div>
+        <div class="h-1 w-full bg-[#2e2a36]/10 rounded-full cursor-pointer relative group" id="progress-container">
+          <div id="progress-bar" class="h-full bg-[#2e2a36] w-0 rounded-full relative">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#a6a2be] rounded-full shadow-sm scale-0 group-hover:scale-100 transition-transform"></div>
+          </div>
+        </div>
+      </div>
+
+      <button id="play-btn" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#2e2a36] text-white hover:bg-[#4a4550] transition-colors shadow-lg">
+        <svg id="play-icon" class="w-4 h-4 ml-0.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pause-icon" class="hidden w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+
+      <audio id="main-audio" src={audio} preload="auto"></audio>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<style>
+  /* Fonts */
+  :root {
+    --font-serif: 'Shippori Mincho', serif;
+    --font-zen: 'Zen Old Mincho', serif;
+  }
+  .font-serif { font-family: var(--font-serif); }
+  .font-zen { font-family: var(--font-zen); }
+
+  /* Animations */
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+  .animate-spin-slow-paused { animation: spin-slow 20s linear infinite; animation-play-state: paused; }
+
+  @keyframes pulse-slow { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.25; } }
+  .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+
+  /* Reveal Effects */
+  .reveal-fade { opacity: 0; transform: translateY(10px); transition: opacity 1s ease, transform 1s ease; }
+  .reveal-fade.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-slide { opacity: 0; transform: translateX(-20px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal-slide:nth-child(even) { transform: translateX(20px); }
+  .reveal-slide.visible { opacity: 1; transform: translateX(0); }
+
+  .reveal-blur { opacity: 0; filter: blur(8px); transition: all 1s ease; }
+  .reveal-blur.visible { opacity: 1; filter: blur(0); }
+
+  .reveal-flash { opacity: 0; transform: scale(1.1); filter: contrast(2) brightness(2); transition: all 0.5s ease-out; }
+  .reveal-flash.visible { opacity: 1; transform: scale(1); filter: contrast(1) brightness(1); }
+
+  /* Keywords */
+  .keyword { transition: all 0.3s ease; }
+  .kw-light, .kw-sun { color: #d4d1da; text-shadow: 0 0 10px #fff; background-color: #2e2a36; padding: 0 4px; }
+  .kw-bright { border-bottom: 2px solid #a6a2be; }
+  .kw-secret { letter-spacing: 0.5em; filter: blur(0.5px); }
+  .kw-fade { opacity: 0.5; mask-image: linear-gradient(to right, black 50%, transparent 100%); }
+  
+  .reveal-flash.visible .kw-fade { animation: fade-out 2s forwards; }
+  @keyframes fade-out { to { opacity: 0; } }
+
+  /* Utilities */
+  .perspective-1000 { perspective: 1000px; }
+</style>
+
+<script>
+  function init() {
+    // Observer Logic
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+    document.querySelectorAll('.reveal-fade, .reveal-slide, .reveal-blur, .reveal-flash').forEach(el => observer.observe(el));
+
+    // Audio Player Logic
+    const audio = document.getElementById('main-audio') as HTMLAudioElement;
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const thumb = document.getElementById('mini-thumb');
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const timeDisplay = document.getElementById('time-display');
+
+    if (audio && playBtn) {
+      const togglePlay = () => {
+        if (audio.paused) {
+          audio.play();
+          playIcon?.classList.add('hidden');
+          pauseIcon?.classList.remove('hidden');
+          if (thumb) thumb.style.animationPlayState = 'running';
+        } else {
+          audio.pause();
+          playIcon?.classList.remove('hidden');
+          pauseIcon?.classList.add('hidden');
+          if (thumb) thumb.style.animationPlayState = 'paused';
+        }
+      };
+
+      playBtn.onclick = togglePlay;
+
+      audio.ontimeupdate = () => {
+        const duration = audio.duration || 0;
+        const current = audio.currentTime;
+        const percent = (current / duration) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        
+        const m = Math.floor(current / 60);
+        const s = Math.floor(current % 60);
+        if (timeDisplay) timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      };
+
+      if (progressContainer) {
+        progressContainer.onclick = (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const p = (e.clientX - rect.left) / rect.width;
+          if (audio.duration) audio.currentTime = p * audio.duration;
+        };
+      }
+    }
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -8,8 +8,11 @@ export async function getStaticPaths() {
   
   return brands.map(brand => {
     const brandSongs = allLyrics.filter(entry => entry.data.brand === brand);
+    let slug = brand.toLowerCase().replace(/\s+/g, '-');
+    if (brand === "学園アイドルマスター") slug = "gkmas";
+    
     return {
-      params: { brand: brand.toLowerCase().replace(/\s+/g, '-') },
+      params: { brand: slug },
       props: { brandName: brand, songs: brandSongs }
     };
   });
@@ -60,7 +63,8 @@ const themeColor = songs[0]?.data.themeColor || "#ffffff";
               const segments = song.id.split('/');
               const brandSlug = segments[0];
               const teamSlug = segments[1] || 'other';
-              const songSlug = segments[2]?.replace('.md', '') || song.id.replace('.md', '');
+              const songSlugBase = segments[2]?.replace('.md', '') || song.id.replace('.md', '');
+              const songSlug = songSlugBase === 'サンフェーデッド' ? 'sunfaded' : songSlugBase;
               
               return (
                 <a href={`/${brandSlug}/${teamSlug}/${songSlug}`} 
