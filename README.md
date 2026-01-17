@@ -4,25 +4,43 @@
 
 [简体中文](./README_zh.md)
 
-**"One Song, One Style"** — *A high-end, immersive visual storytelling experience for the iDOLM@STER universe.*
+**"One Song, One Style"** — *A high-end, immersive visual storytelling experience.*
 
 [![Astro](https://img.shields.io/badge/Astro-5.0-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
+<br />
+
+![Main Preview](./docs/assets/README/sunfaded.gif)
+
+*The nostalgic, film-grained aesthetic of "Sunfaded" — a customized experience.*
+
 </div>
 
 ---
 
-## 🌟 One Song, One Style
+## 🌟 One Song, One Style: Visual Gallery
 
-Every song in the archive is treated as a unique visual performance. We move beyond static text to create a digital atmosphere that resonates with the music's soul.
+Each track is more than just lyrics; it's a curated digital performance.
 
-| Song Example | Visual Identity | Key Techniques |
-| :--- | :--- | :--- |
-| **Shiny Stories** | ✨ Iridescent Glassmorphism | Backdrop filters, frosted glass layers, dynamic gradients. |
-| **Sunfaded** | 🎞️ Nostalgic Film Grain | CSS noise textures, sepia-toned overlays, serif typography. |
-| **Overexposed** | 💡 Ethereal Bloom | High-contrast lighting, glow effects, motion-blurred reveals. |
+| **OH MY GOD** | **Spread the Wings** | **Anniversary** |
+| :---: | :---: | :---: |
+| ![OH MY GOD](./docs/assets/README/oh_my_god.png) | ![Spread the Wings](./docs/assets/README/spread_the_wings.png) | ![Anniversary](./docs/assets/README/anniversary.png) |
+| *City-pop elegance with SHHis's high-fashion aesthetics.* | *The vast, azure sky of 283 Production — pure and hopeful.* | *A grand celebration of milestones with warm, festive palettes.* |
+
+---
+
+## 🤖 The "Sisyphus" Agent Ecosystem
+
+This repository is maintained and evolved through a unique **Multi-Agent Collaboration** system, ensuring every song gets its own "soul".
+
+- 🏛️ **Sisyphus (Orchestrator)**: Manages core architecture and deployment strategies.
+- 🎨 **Frontend UI/UX Engineer**: Crafts custom CSS arts and immersive animations for "Custom" layouts.
+- 📚 **Librarian**: Researches high-performance WebGL effects and typography optimization.
+- ✍️ **Document Writer**: Maintains consistency in storytelling and technical standards.
+
+*Learn more about our workflow in [AGENTS.md](./AGENTS.MD).*
 
 ---
 

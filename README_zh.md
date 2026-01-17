@@ -2,25 +2,45 @@
 
 # 🎵 偶像大师歌词档案馆 (iDOLM@STER Lyrics Archive)
 
-**"一曲一格" (One Song, One Style)** — *为偶像大师宇宙的歌词打造的高端、沉浸式视觉叙事体验。*
+[English](./README.md)
+
+**"一曲一格" (One Song, One Style)** — *为偶像大师宇宙打造的高端、沉浸式视觉叙事体验。*
 
 [![Astro](https://img.shields.io/badge/Astro-5.0-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
+<br />
+
+![主预览](./docs/assets/README/sunfaded.gif)
+
+*《サンフェーデッド》的怀旧胶片美学 —— 每一首歌都有专属灵魂。*
+
 </div>
 
 ---
 
-## 🌟 一曲一格 (One Song, One Style)
+## 🌟 一曲一格：视觉画廊 (Visual Gallery)
 
-档案馆中的每一首歌都被视为一场独特的视觉表演。我们超越了静态文字的界限，致力于创造一个能与音乐灵魂产生共鸣的数字氛围。
+每一首曲目都不止是歌词，而是一场经过精心策划的数字表演。
 
-| 歌曲示例 | 视觉识别度 | 核心技术 |
-| :--- | :--- | :--- |
-| **Shiny Stories** | ✨ 虹彩磨砂玻璃 | 背景滤镜、毛玻璃层叠、动态渐变色。 |
-| **Sunfaded** (サンフェーデッド) | 🎞️ 怀旧胶片质感 | CSS 噪点纹理、深褐色滤镜、优雅的衬线体。 |
-| **Overexposed** | 💡 纯白过曝美学 | 高对比度光效、光晕扩散、运动模糊呈现。 |
+| **OH MY GOD** | **Spread the Wings** | **Anniversary** |
+| :---: | :---: | :---: |
+| ![OH MY GOD](./docs/assets/README/oh_my_god.png) | ![Spread the Wings](./docs/assets/README/spread_the_wings.png) | ![Anniversary](./docs/assets/README/anniversary.png) |
+| *SHHis 的都市流行美学，高冷且极具时尚感。* | *283 Production 广阔的蔚蓝天空 —— 纯粹且充满希望。* | *温馨华丽的周年庆典色调，记录每一个里程碑。* |
+
+---
+
+## 🤖 "Sisyphus" 代理协作生态
+
+本项目通过独特的**多代理协作 (Multi-Agent Collaboration)** 体系进行维护与演进，确保每一首歌都能获得其独特的“灵魂”。
+
+- 🏛️ **Sisyphus (协调者)**：管理核心架构与部署策略。
+- 🎨 **前端 UI/UX 工程师**：为“定制”布局打造专属 CSS 艺术与沉浸式动效。
+- 📚 **资源馆长 (Librarian)**：研究高性能 WebGL 特效与字体优化方案。
+- ✍️ **文档撰写者**：维护叙事一致性与技术文档标准。
+
+*在 [AGENTS.md](./AGENTS.MD) 中了解更多关于我们工作流的信息。*
 
 ---
 
