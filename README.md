@@ -59,7 +59,7 @@ Every song in the archive is treated as a unique visual performance. We move bey
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/idolmaster-lyrics.git
+git clone https://github.com/z1921531571/imas-lyrics-visualizer.git
 
 # Install dependencies
 npm install
