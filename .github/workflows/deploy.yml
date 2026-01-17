@@ -17,13 +17,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install, build, and index
-        uses: withastro/action@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          # This action handles node installation, npm install, and astro build
-          # We need to ensure pagefind runs after build
           node-version: 20
-          package-manager: npm
+          cache: 'npm'
+
+      - name: Install, build, and index
+        run: |
+          npm install --legacy-peer-deps
+          npm run build
 
       - name: Generate Pagefind Search Index
         run: npx pagefind --site dist
