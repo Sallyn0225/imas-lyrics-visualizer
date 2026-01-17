@@ -2,6 +2,8 @@
 
 # 🎵 iDOLM@STER Lyrics Archive
 
+[简体中文](./README_zh.md)
+
 **"One Song, One Style"** — *A high-end, immersive visual storytelling experience for the iDOLM@STER universe.*
 
 [![Astro](https://img.shields.io/badge/Astro-5.0-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)

@@ -1,5 +1,7 @@
 # Contributing Guide
 
+[简体中文](./CONTRIBUTING_zh.md)
+
 Thank you for your interest in contributing to the **iDOLM@STER Lyrics Archive**! This guide will help you understand how to add new songs and follow the project's structure.
 
 ## 📁 Project Structure for Lyrics
