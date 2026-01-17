@@ -59,7 +59,7 @@ Every song in the archive is treated as a unique visual performance. We move bey
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/z1921531571/imas-lyrics-visualizer.git
+git clone https://github.com/Sallyn0225/imas-lyrics-visualizer.git
 
 # Install dependencies
 npm install
