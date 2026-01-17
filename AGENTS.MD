@@ -9,7 +9,7 @@
 | **Sisyphus (Orchestrator)** | 架构演进、任务编排、基础设施与多平台部署策略 | 全局架构重构、`vercel.json`/`netlify.toml` 维护、复杂逻辑实现 |
 | **Frontend UI/UX Engineer** | 极致视觉呈现、CSS 艺术、交互动效 | **定制单曲页面开发**、全局播放器美化、视觉特效 (VFX) |
 | **Librarian** | 资源调研、第三方库选型、资产管理 | 寻找高性能 WebGL 效果、字体子集化建议、CSS 技巧探索 |
-| **Document Writer** | 技术文档编排、语言润色、品牌一致性维护 | 维护 `README.md`, `my-plan.md`, `AGENTS.MD`，确保文档调性高雅 |
+| **Document Writer** | 技术文档编排、语言润色、品牌一致性维护 | 维护 `README.md`, `my-plan.md`, `AGENTS.MD`，并负责建立响应式技术标准 |
 | **Explore** | 代码库嗅探、结构一致性校验 | 检查新增歌曲路由、分析全局样式冲突、上下文检索 |
 
 ---
@@ -31,6 +31,7 @@
     - **路由同步**：若自定义页面 slug（如 `sunfaded`）与元数据文件名（如 `サンフェーデッド`）不一致，必须在路由逻辑中建立映射。
     - 编写该歌曲专用的 HTML 骨架与 CSS 动画。
     - 实现与歌词情感共鸣的交互效果（如：随着副歌滚动的光晕）。
+    - **响应式审计**：执行 `docs/RESPONSIVE_GUIDE.md` 中的 [Mobile Compatibility Checklist]。
 
 ---
 
@@ -38,9 +39,12 @@
 
 - **基础框架**：Astro 5 + Tailwind CSS 4。
 - **核心原则**：
+    - **响应式优先 (Responsive-First)**：所有页面必须通过 `100vw` 边界检查，大号文字须具备换行策略，装饰性背景元素必须有 `overflow-hidden` 约束（详见 `docs/RESPONSIVE_GUIDE.md`）。
     - **转场 (Transitions)**：必须启用 `ViewTransitions` 实现封面图的英雄动画。
+
     - **滚动 (Scrolling)**：利用 `IntersectionObserver` 或原生 CSS 滚动驱动动画。
     - **性能 (Performance)**：视觉特效优先使用 CSS，Canvas 仅作为增强手段。
+    - **音频 (Audio)**：所有音频播放器组件（含定制页面与通用模板）必须包含音量控制组件，且默认音量需设为 `0.5` (中等)。
 - **响应式**：移动端优先 (Mobile First)，PC 端增强 (Desktop Enhanced)。
 
 ---
