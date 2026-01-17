@@ -1,0 +1,9 @@
+<<<<
+      <h1 class="text-6xl md:text-9xl font-cinzel font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 mb-6 relative z-10">
+        偶像大师歌词可视化存档
+      </h1>
+====
+      <h1 class="text-4xl md:text-7xl lg:text-8xl font-cinzel font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 mb-6 relative z-10 break-keep">
+        偶像大师歌词可视化存档
+      </h1>
+>>>>

@@ -1,0 +1,594 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('lyrics', 'shiny-colors/brand/spread_the_wings');
+if (!entry) {
+  throw new Error('Lyric entry not found');
+}
+const { title, brand, team, themeColor, cover, audio } = entry.data;
+
+const primaryColor = themeColor || '#8dbbff';
+---
+
+<BaseLayout title={`${title} - ${team}`} themeColor={primaryColor}>
+  <!-- Font Loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Background Elements -->
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-gradient-to-b from-[#8dbbff] via-[#cae4ff] to-white">
+    <!-- Moving Clouds (CSS) -->
+    <div class="cloud-layer opacity-40"></div>
+    <div class="cloud-layer layer-2 opacity-30"></div>
+    
+    <!-- Feather Particles Container -->
+    <div id="feather-container" class="absolute inset-0"></div>
+    
+    <!-- Sun glare -->
+    <div class="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-white blur-[100px] opacity-40 rounded-full animate-pulse-slow"></div>
+  </div>
+
+  <main class="relative z-10 w-full min-h-screen overflow-x-hidden font-sans text-[#4a6fa5]">
+    
+    <!-- Hero Section -->
+    <section class="relative flex flex-col items-center justify-center min-h-[90vh] px-6 text-center pt-20">
+      <div class="hero-content flex flex-col items-center gap-8">
+        <!-- Album Art -->
+        <div class="relative group perspective-1000">
+          <div class="w-64 h-64 md:w-80 md:h-80 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-700 hover:rotate-y-12 hover:scale-105 z-10 relative bg-white/10 backdrop-blur-md border border-white/40">
+            <img src={cover} alt={title} class="w-full h-full object-cover" transition:name={`cover-${entry.slug}`} />
+            <!-- Glare effect -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          </div>
+          <!-- Shadow -->
+          <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-10 bg-blue-900/20 blur-xl rounded-[100%]"></div>
+        </div>
+
+        <!-- Title Typography -->
+        <div class="z-20 mix-blend-multiply">
+          <h1 class="text-5xl md:text-7xl lg:text-9xl font-black font-montserrat tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-[#4a89d6] drop-shadow-lg leading-tight animate-fly-in">
+            Spread<br/><span class="text-[#2a5c9e]">the</span> Wings!!
+          </h1>
+          <p class="mt-4 text-lg md:text-2xl font-zen font-bold tracking-widest text-[#2a5c9e] opacity-0 animate-fade-in-up delay-500">
+            {team}
+          </p>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-[#2a5c9e]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+      </div>
+    </section>
+
+    <!-- Lyrics Section -->
+    <section class="relative max-w-4xl mx-auto px-6 pb-40">
+      <div class="lyrics-container space-y-24 md:space-y-32 text-center md:text-left">
+        
+        <!-- Intro -->
+        <div class="lyric-block verse group" data-animate="fade-up">
+          <p class="text-xl md:text-3xl font-zen font-medium leading-loose text-[#5c8bc2]">
+            <span class="interactive-word" data-word="Spread">Spread</span> the <span class="interactive-word" data-word="Wings">Wings</span><br/>
+            行こう 今、はじまる奇跡
+          </p>
+        </div>
+
+        <div class="lyric-block verse group" data-animate="fade-up">
+          <p class="text-xl md:text-3xl font-zen font-medium leading-loose text-[#5c8bc2]">
+            <span class="interactive-word" data-word="翼">翼</span>を広げて <span class="text-sm md:text-xl opacity-70 block md:inline my-2 md:my-0">(君とどこまでも)</span><br/>
+            あの<span class="interactive-word" data-word="空">空</span>の彼方
+          </p>
+        </div>
+
+        <div class="lyric-block bridge text-center py-10" data-animate="scale-in">
+          <p class="text-4xl md:text-6xl font-montserrat font-black text-[#8dbbff] opacity-90 tracking-tighter">
+            (Start Up)
+          </p>
+          <p class="text-lg md:text-2xl font-zen mt-4 text-[#4a6fa5]">
+            新しい<span class="interactive-word" data-word="夢">夢</span>にあつまった
+          </p>
+          <p class="text-5xl md:text-7xl font-montserrat font-black text-[#4a89d6] mt-6 transform rotate-2">
+            (You & Me YES!!)
+          </p>
+        </div>
+
+        <div class="lyric-block verse" data-animate="fade-up">
+          <p class="text-xl md:text-3xl font-zen font-medium leading-loose text-[#5c8bc2]">
+            やわらかい羽をぎゅっとつないで
+          </p>
+          <div class="my-8 pl-0 md:pl-10 border-l-0 md:border-l-4 border-[#8dbbff]">
+            <p class="text-3xl md:text-5xl font-montserrat font-bold text-[#2a5c9e] mb-2">(Look Up)</p>
+            <p class="text-xl md:text-3xl font-zen">誰も見たことない<span class="interactive-word" data-word="翼">翼</span></p>
+          </div>
+          <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e] mt-4">
+            わたし達の<span class="interactive-word" data-word="空">空</span>に広げよう
+          </p>
+        </div>
+
+        <div class="lyric-block verse grid md:grid-cols-2 gap-8 items-center" data-animate="fade-up">
+          <div class="text-right hidden md:block">
+            <div class="w-full h-[1px] bg-gradient-to-r from-transparent to-[#8dbbff]"></div>
+          </div>
+          <div>
+            <p class="text-lg md:text-2xl font-zen leading-relaxed text-[#5c8bc2]">
+              どんな憧れも全部かなえる<br/>
+              そんな未来信じてみない？
+            </p>
+          </div>
+        </div>
+
+        <div class="lyric-block verse text-center" data-animate="fade-up">
+          <p class="text-xl md:text-3xl font-zen">
+            強く願えたら <span class="text-[#8dbbff] font-bold">(それはもう)</span> 本物だよ！
+          </p>
+        </div>
+
+        <!-- Chorus 1 -->
+        <div class="lyric-block chorus py-20 relative" data-animate="chorus-explode">
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/50 to-blue-100/0 blur-3xl -z-10 transform scale-y-150"></div>
+          <p class="text-4xl md:text-7xl font-montserrat font-black text-transparent bg-clip-text bg-gradient-to-r from-[#4a89d6] to-[#8dbbff] leading-tight text-center drop-shadow-sm mb-8">
+            Spread the Wings
+          </p>
+          <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e] text-center mb-6">
+            行こう 今、羽ばたく時間
+          </p>
+          <p class="text-xl md:text-2xl font-zen text-[#5c8bc2] text-center">
+            ずっとみんな 待っていたよね
+          </p>
+        </div>
+
+        <div class="lyric-block chorus py-10 relative" data-animate="chorus-explode">
+           <p class="text-4xl md:text-7xl font-montserrat font-black text-transparent bg-clip-text bg-gradient-to-r from-[#8dbbff] to-[#4a89d6] leading-tight text-center drop-shadow-sm mb-8">
+            Spread the Wings
+          </p>
+          <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e] text-center mb-6">
+            これは もう最初の奇跡
+          </p>
+          <div class="flex flex-col md:flex-row justify-center items-center gap-4 text-xl md:text-3xl font-zen font-bold text-[#4a6fa5] mt-8">
+            <span>(見つけた)</span>
+            <span>手を伸ばせば</span>
+            <span class="text-[#ff9e42] text-4xl md:text-5xl font-montserrat transform -rotate-6 inline-block">(Power)</span>
+            <span>うまれてくる</span>
+          </div>
+          <p class="text-3xl md:text-5xl font-zen font-black text-[#2a5c9e] text-center mt-12 tracking-widest">
+            勇気をさあ 味方にして
+          </p>
+        </div>
+
+        <!-- Spacer for visual breathing room -->
+        <div class="h-20 md:h-40"></div>
+
+        <!-- Verse 2 -->
+        <div class="lyric-block verse relative" data-animate="fade-up">
+           <p class="text-2xl md:text-4xl font-zen font-medium text-center text-[#5c8bc2] leading-loose">
+            <span class="interactive-word" data-word="翼">翼</span>を広げて <span class="text-lg md:text-2xl opacity-70 block md:inline">(君とどこまでも)</span><br/>
+            あの<span class="interactive-word" data-word="空">空</span>の彼方
+          </p>
+        </div>
+
+        <div class="lyric-block verse grid md:grid-cols-12 gap-4 items-center py-12" data-animate="stagger-slide">
+           <div class="md:col-span-5 text-right">
+             <span class="text-4xl md:text-6xl font-montserrat font-black text-[#8dbbff]">(Grow Up)</span>
+           </div>
+           <div class="md:col-span-7">
+             <p class="text-xl md:text-2xl font-zen text-[#4a6fa5]">不安はみんな同じだね</p>
+           </div>
+           <div class="md:col-span-12 text-center mt-4">
+             <span class="text-4xl md:text-7xl font-montserrat font-black text-[#ff9e42] transform rotate-3 inline-block drop-shadow-md">(Don't worry YES!!)</span>
+           </div>
+        </div>
+
+        <div class="lyric-block verse text-center space-y-6" data-animate="fade-up">
+           <p class="text-xl md:text-2xl font-zen text-[#5c8bc2]">だけどワクワクちゃんとしてるの</p>
+           <div>
+              <span class="text-3xl md:text-5xl font-montserrat font-black text-[#8dbbff] block mb-2">(Jump Up)</span>
+              <p class="text-lg md:text-2xl font-zen text-[#4a6fa5]">うまくできない自分ごと</p>
+           </div>
+           <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e]">好きになれるステージきっとある</p>
+        </div>
+
+        <!-- Bridge -->
+        <div class="lyric-block bridge py-20 md:pl-20 border-l-2 border-white/50" data-animate="fade-right">
+           <p class="text-xl md:text-3xl font-zen font-medium text-[#4a6fa5] mb-6">
+             いっぱい<span class="interactive-word" data-word="夢">夢</span>見たぶん、うんと遠くまで
+           </p>
+           <p class="text-xl md:text-3xl font-zen font-medium text-[#4a6fa5] mb-6 pl-4 md:pl-10">
+             イメージする…リアルになる
+           </p>
+           <p class="text-xl md:text-3xl font-zen font-medium text-[#4a6fa5] mb-12 pl-8 md:pl-20">
+             今はそれだけで <span class="text-[#2a5c9e] font-bold">(じゅうぶん)</span>
+           </p>
+           <div class="text-center md:text-right pr-0 md:pr-10">
+              <p class="text-3xl md:text-5xl font-zen font-black text-[#2a5c9e] mb-2">強くなれる！</p>
+              <p class="text-2xl md:text-4xl font-montserrat font-bold text-[#8dbbff]">(上昇気流にRide！！)</p>
+           </div>
+        </div>
+
+        <!-- Chorus 2 -->
+        <div class="lyric-block chorus py-20 relative" data-animate="chorus-explode">
+          <p class="text-4xl md:text-7xl font-montserrat font-black text-transparent bg-clip-text bg-gradient-to-r from-[#4a89d6] to-[#8dbbff] leading-tight text-center drop-shadow-sm mb-8">
+            Spread the Wings
+          </p>
+          <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e] text-center mb-6">
+            行こう まだ知らない世界
+          </p>
+          <p class="text-xl md:text-2xl font-zen text-[#5c8bc2] text-center mb-12">
+            <span class="interactive-word" data-word="夢">夢</span>が<span class="interactive-word" data-word="夢">夢</span>で 終わらない場所
+          </p>
+
+          <p class="text-4xl md:text-7xl font-montserrat font-black text-transparent bg-clip-text bg-gradient-to-r from-[#8dbbff] to-[#4a89d6] leading-tight text-center drop-shadow-sm mb-8">
+            Spread the Wings
+          </p>
+          <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e] text-center mb-6">
+            いつか 最高の笑顔で
+          </p>
+           <div class="flex flex-col md:flex-row justify-center items-center gap-6 text-xl md:text-3xl font-zen font-bold text-[#4a6fa5] mt-8">
+            <span>(一緒に)</span>
+            <span>たどりつける</span>
+            <span class="text-[#ff9e42] text-4xl md:text-5xl font-montserrat inline-block">(Future)</span>
+            <span>キラメキへと</span>
+          </div>
+          <p class="text-3xl md:text-5xl font-zen font-black text-[#2a5c9e] text-center mt-12 tracking-widest scale-110">
+            可能性で 羽ばたくんだ
+          </p>
+        </div>
+
+        <div class="text-center py-20" data-animate="pop">
+           <span class="text-6xl md:text-9xl font-montserrat font-black text-white drop-shadow-[0_0_15px_rgba(141,187,255,0.8)]">Yeah!!</span>
+        </div>
+
+        <!-- Outro -->
+        <div class="lyric-block outro text-center space-y-12 pb-20" data-animate="fade-up">
+           <p class="text-xl md:text-3xl font-zen text-[#4a6fa5]">さあ、ここから 前だけ見て進むよ</p>
+           <p class="text-2xl md:text-4xl font-zen font-bold text-[#2a5c9e]">
+             瞳に両手に <span class="font-montserrat text-[#ff9e42]">Dream (Dream)</span> 輝かせよう
+           </p>
+        </div>
+
+        <!-- Final Chorus Reprise -->
+         <div class="lyric-block chorus py-20 relative opacity-90" data-animate="fade-up">
+           <p class="text-xl md:text-3xl font-zen text-[#5c8bc2] text-center mb-4">
+             Spread the Wings 行こう 今、羽ばたく時間<br/>
+             ずっとみんな 待っていたよね
+           </p>
+           <p class="text-xl md:text-3xl font-zen text-[#5c8bc2] text-center">
+             Spread the Wings これは もう最初の奇跡
+           </p>
+         </div>
+
+         <div class="lyric-block final pb-40 text-center" data-animate="fade-up">
+            <div class="space-y-4 mb-16">
+               <p class="text-lg md:text-2xl font-zen text-[#4a6fa5]">(見つけた) 手を伸ばして (Power) 受け取ったの</p>
+               <p class="text-xl md:text-3xl font-zen font-bold text-[#2a5c9e]">君と目指す (Future) キラめく世界</p>
+               <p class="text-3xl md:text-5xl font-zen font-black text-[#8dbbff] tracking-widest mt-8">可能性で 羽ばたくんだ</p>
+            </div>
+
+            <div class="space-y-6 opacity-80">
+               <p class="text-lg md:text-xl font-zen text-[#5c8bc2]">翼を広げて (君とどこまでも)</p>
+               <p class="text-lg md:text-xl font-zen text-[#5c8bc2]">あの空の彼方 (夢を追いかけて)</p>
+               <p class="text-lg md:text-xl font-zen text-[#5c8bc2]">翼を広げて (君とどこまでも)</p>
+               <p class="text-3xl md:text-5xl font-zen font-bold text-[#8dbbff] mt-8">あの空の彼方</p>
+            </div>
+         </div>
+
+      </div>
+    </section>
+
+    <!-- Custom Player -->
+    <div id="custom-player" class="fixed bottom-0 left-0 right-0 z-50 p-4 pb-6 transition-transform duration-300 translate-y-full">
+      <div class="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_8px_32px_rgba(31,38,135,0.15)] p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+        <!-- Play Button -->
+        <button id="play-btn" class="w-14 h-14 flex-shrink-0 bg-[#8dbbff] rounded-full flex items-center justify-center text-white shadow-lg hover:bg-[#7aa8eb] hover:scale-105 transition-all group">
+          <svg id="icon-play" class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="icon-pause" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+
+        <!-- Track Info & Progress -->
+        <div class="flex-1 w-full">
+          <div class="flex justify-between items-end mb-2">
+            <h3 class="text-[#2a5c9e] font-bold font-montserrat truncate max-w-[200px] md:max-w-none">{title}</h3>
+            <span id="time-display" class="text-xs font-mono text-[#5c8bc2]">0:00 / 0:00</span>
+          </div>
+          
+          <div class="relative w-full h-2 bg-[#cae4ff]/50 rounded-full cursor-pointer group" id="progress-container">
+            <div class="absolute top-0 left-0 h-full bg-[#8dbbff] rounded-full w-0 group-hover:bg-[#4a89d6] transition-colors" id="progress-bar"></div>
+            <div class="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 bg-white rounded-full shadow-md scale-0 group-hover:scale-100 transition-transform left-0" id="progress-thumb"></div>
+          </div>
+        </div>
+
+        <!-- Volume -->
+         <div class="hidden md:flex items-center gap-2 w-32">
+          <svg class="w-5 h-5 text-[#5c8bc2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" class="w-full accent-[#8dbbff] h-1 bg-[#cae4ff] rounded-lg appearance-none cursor-pointer"/>
+        </div>
+
+        <audio id="audio-element" src={audio} preload="metadata"></audio>
+      </div>
+    </div>
+
+  </main>
+</BaseLayout>
+
+<style>
+  /* Font Families */
+  .font-montserrat { font-family: 'Montserrat', sans-serif; }
+  .font-zen { font-family: 'Zen Kaku Gothic New', sans-serif; }
+
+  /* Cloud Animations */
+  .cloud-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='1000' height='400' viewBox='0 0 1000 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M89.5 150.5C59.5 150.5 30.5 160.5 10.5 190.5C-9.5 220.5 5.5 250.5 20.5 260.5C35.5 270.5 80.5 280.5 120.5 260.5C160.5 240.5 180.5 200.5 160.5 170.5C140.5 140.5 119.5 150.5 89.5 150.5Z' fill='white'/%3E%3Cpath d='M389.5 50.5C359.5 50.5 330.5 60.5 310.5 90.5C290.5 120.5 305.5 150.5 320.5 160.5C335.5 170.5 380.5 180.5 420.5 160.5C460.5 140.5 480.5 100.5 460.5 70.5C440.5 40.5 419.5 50.5 389.5 50.5Z' fill='white'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 50% auto;
+    animation: drift 60s linear infinite;
+  }
+  
+  .layer-2 {
+    top: 20%;
+    animation: drift 90s linear infinite reverse;
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Feather Particle */
+  .feather {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background: white;
+    border-radius: 100% 0 50% 0;
+    opacity: 0.6;
+    pointer-events: none;
+    filter: blur(1px);
+  }
+
+  /* Animations */
+  @keyframes flyIn {
+    0% { transform: translateY(100px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .animate-fly-in { animation: flyIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  
+  @keyframes fadeInUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+  
+  @keyframes pulseSlow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+  .animate-pulse-slow { animation: pulseSlow 8s ease-in-out infinite; }
+
+  /* 3D Perspective */
+  .perspective-1000 { perspective: 1000px; }
+  .rotate-y-12 { transform: rotateY(12deg); }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(141, 187, 255, 0.5); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(74, 137, 214, 0.8); }
+</style>
+
+<script>
+  // Feather Animation System
+  function createFeathers() {
+    const container = document.getElementById('feather-container');
+    const featherCount = 15;
+
+    for (let i = 0; i < featherCount; i++) {
+      const feather = document.createElement('div');
+      feather.classList.add('feather');
+      
+      // Random properties
+      const left = Math.random() * 100;
+      const duration = 15 + Math.random() * 20;
+      const delay = Math.random() * -20;
+      const scale = 0.5 + Math.random() * 1;
+      
+      feather.style.left = `${left}%`;
+      feather.style.top = `-10%`;
+      feather.style.transform = `scale(${scale})`;
+      feather.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+      
+      // Insert specific feather SVG shape if wanted, or just CSS shape
+      // Using CSS shape defined in styles for now
+      
+      container?.appendChild(feather);
+    }
+  }
+
+  // Inject dynamic keyframes for falling
+  const styleSheet = document.createElement("style");
+  styleSheet.innerText = `
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+
+  createFeathers();
+
+  // Scroll Animations (Intersection Observer)
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -10% 0px"
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const animation = el.dataset.animate;
+        
+        // Reset base style
+        el.style.opacity = '1';
+        el.style.transform = 'none'; // Clear translate/scale
+        
+        // Add specific animation classes if needed, or just handle via CSS transition
+        // Here we're using the fact that we set initial state in CSS (hidden) and transition to visible
+        // But since I didn't set initial CSS classes for hidden, let's do JS animation
+        
+        if (animation === 'fade-up') {
+          el.animate([
+            { opacity: 0, transform: 'translateY(30px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ], { duration: 800, fill: 'forwards', easing: 'ease-out' });
+        } else if (animation === 'scale-in') {
+          el.animate([
+            { opacity: 0, transform: 'scale(0.9)' },
+            { opacity: 1, transform: 'scale(1)' }
+          ], { duration: 800, fill: 'forwards', easing: 'ease-out' });
+        } else if (animation === 'chorus-explode') {
+           el.animate([
+            { opacity: 0, transform: 'scale(0.95) translateY(20px)' },
+            { opacity: 1, transform: 'scale(1) translateY(0)' }
+          ], { duration: 1000, fill: 'forwards', easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+        } else if (animation === 'pop') {
+           el.animate([
+             { transform: 'scale(0.5)', opacity: 0 },
+             { transform: 'scale(1.1)', opacity: 1, offset: 0.7 },
+             { transform: 'scale(1)', opacity: 1 }
+           ], { duration: 600, fill: 'forwards' });
+        }
+        
+        observer.unobserve(el);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('[data-animate]').forEach(el => {
+    el.style.opacity = '0'; // Set initial state
+    observer.observe(el);
+  });
+
+  // Interactive Words
+  function initInteractiveWords() {
+    document.querySelectorAll('.interactive-word').forEach(word => {
+      word.addEventListener('mouseenter', (e) => {
+        // Create sparkle
+        const span = e.target as HTMLElement;
+        const rect = span.getBoundingClientRect();
+        const sparkle = document.createElement('div');
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = `${rect.left + rect.width/2}px`;
+        sparkle.style.top = `${rect.top}px`;
+        sparkle.style.width = '20px';
+        sparkle.style.height = '20px';
+        sparkle.style.background = 'radial-gradient(circle, white 0%, transparent 70%)';
+        sparkle.style.borderRadius = '50%';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '100';
+        document.body.appendChild(sparkle);
+
+        sparkle.animate([
+          { transform: 'scale(0) translate(0,0)', opacity: 1 },
+          { transform: 'scale(2) translate(0, -20px)', opacity: 0 }
+        ], { duration: 500, easing: 'ease-out' }).onfinish = () => sparkle.remove();
+        
+        span.style.color = '#fff';
+        span.style.textShadow = '0 0 10px #8dbbff';
+        setTimeout(() => {
+          span.style.color = '';
+          span.style.textShadow = '';
+        }, 300);
+      });
+    });
+  }
+
+  // Audio Player Logic
+  function initPlayer() {
+    const audio = document.getElementById('audio-element') as HTMLAudioElement;
+    const playBtn = document.getElementById('play-btn');
+    const iconPlay = document.getElementById('icon-play');
+    const iconPause = document.getElementById('icon-pause');
+    const progressBar = document.getElementById('progress-bar');
+    const progressThumb = document.getElementById('progress-thumb');
+    const progressContainer = document.getElementById('progress-container');
+    const timeDisplay = document.getElementById('time-display');
+    const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+    const playerPanel = document.getElementById('custom-player');
+
+    if (playBtn && audio) {
+      // Set initial volume
+      audio.volume = 0.5;
+      if (volumeSlider) volumeSlider.value = '0.5';
+
+      playBtn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+          iconPlay?.classList.add('hidden');
+          iconPause?.classList.remove('hidden');
+        } else {
+          audio.pause();
+          iconPlay?.classList.remove('hidden');
+          iconPause?.classList.add('hidden');
+        }
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const percent = (audio.currentTime / (audio.duration || 1)) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (progressThumb) progressThumb.style.left = `${percent}%`;
+        
+        const currentMin = Math.floor(audio.currentTime / 60);
+        const currentSec = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+        const totalMin = Math.floor(audio.duration / 60) || 0;
+        const totalSec = Math.floor(audio.duration % 60).toString().padStart(2, '0') || '00';
+        
+        if (timeDisplay) timeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
+      });
+
+      if (progressContainer) {
+        progressContainer.addEventListener('click', (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const pos = (e.clientX - rect.left) / rect.width;
+          if (audio.duration) audio.currentTime = pos * audio.duration;
+        });
+      }
+
+      if (volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+          const val = (e.target as HTMLInputElement).value;
+          audio.volume = parseFloat(val);
+        });
+      }
+      
+      // Show player on scroll
+      setTimeout(() => {
+          playerPanel?.classList.remove('translate-y-full');
+      }, 1000);
+    }
+  }
+
+  // Astro View Transitions support
+  document.addEventListener('astro:page-load', () => {
+    // Re-initialize all systems on every page load (including navigation back)
+  // createFeathers(); // Init is now handled by astro:page-load
+
+    initPlayer();
+    initInteractiveWords();
+    
+    // Re-observe animations
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      (el as HTMLElement).style.opacity = '0';
+      observer.observe(el);
+    });
+  });
+</script>

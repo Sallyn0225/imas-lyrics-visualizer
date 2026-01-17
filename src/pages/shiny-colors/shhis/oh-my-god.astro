@@ -1,0 +1,767 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+
+// Retrieve metadata for "OH MY GOD"
+const songEntry = await getEntry('lyrics', 'shiny-colors/shhis/oh-my-god');
+const title = songEntry?.data.title || "OH MY GOD";
+const brand = songEntry?.data.brand || "Shiny Colors";
+const team = songEntry?.data.team || "SHHis";
+const themeColor = songEntry?.data.themeColor || "#008e74";
+const cover = songEntry?.data.cover || "";
+const audio = songEntry?.data.audio || "";
+
+const lyrics = [
+  {
+    type: 'intro',
+    lines: [
+      "Yeah！",
+      "It's time for our new era",
+      "Let's go！",
+      "",
+      "Yeah-yeah",
+      "We gonna fly so high！",
+      "We're so much better！"
+    ]
+  },
+  {
+    type: 'verse-1',
+    lines: [
+      "今この空をHigh Jack",
+      "授けられたのmy back",
+      "羽ばたく",
+      "you know who I am",
+      "風も乗りこなす",
+      "",
+      "Everything's gonna be alright！",
+      "行けない場所なんてない",
+      "自由自在の",
+      "無二の存在なの Hey！"
+    ]
+  },
+  {
+    type: 'pre-chorus',
+    lines: [
+      "You and I",
+      "持ち合った",
+      "Eye to eye",
+      "それぞれ",
+      "視線は違えど",
+      "We set the same target",
+      "",
+      "You only",
+      "You only",
+      "Only you have one",
+      "I only",
+      "I only",
+      "Only I have one",
+      "掛け合わせるわ今"
+    ]
+  },
+  {
+    type: 'chorus',
+    lines: [
+      "Oh my god！",
+      "Ey！ It's not enough",
+      "ブレることはないの",
+      "Shaking now",
+      "Shaking now",
+      "高鳴る Two hearts",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！",
+      "Ey！ Nobody knows",
+      "折れないツバサを",
+      "Shaking now",
+      "Shaking now",
+      "掲げ High and Low",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！"
+    ]
+  },
+  {
+    type: 'verse-2',
+    lines: [
+      "We do it",
+      "まだまだ",
+      "こんなにハラハラ",
+      "時にわがまま",
+      "We wanna We wanna",
+      "Hey you have another play style",
+      "Every time it makes me smile",
+      "飽きないように",
+      "冷めないように",
+      "高まるストーリー",
+      "just like us！",
+      "尽きない興味",
+      "ほらもっとShow me",
+      "Never say sorry huh？",
+      "Gimme Gimme",
+      "One more time"
+    ]
+  },
+  {
+    type: 'bridge',
+    lines: [
+      "You and I",
+      "信じ合い",
+      "by your side",
+      "お互い",
+      "どんな困難も",
+      "単純なことよ",
+      "",
+      "You only",
+      "You only",
+      "Only you have one",
+      "I only",
+      "I only",
+      "Only I have one",
+      "掛け合わせたら　ほら"
+    ]
+  },
+  {
+    type: 'chorus-climax',
+    lines: [
+      "Oh my god！",
+      "Ey！ I got a card",
+      "ゲームは制したの",
+      "Shaking now",
+      "Shaking now",
+      "高鳴る Two hearts",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！",
+      "Ey！ Forever more",
+      "輝ける理想を",
+      "Shaking now",
+      "Shaking now",
+      "掲げ High and Low",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！",
+      "",
+      "Oh my god！",
+      "Ey！ It's not enough",
+      "ブレることはないの",
+      "Shaking now",
+      "Shaking now",
+      "高鳴る Two hearts",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！",
+      "Ey！ Nobody knows",
+      "折れないツバサを",
+      "Shaking now",
+      "Shaking now",
+      "掲げ High and Low",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god"
+    ]
+  },
+  {
+    type: 'outro',
+    lines: [
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "(Hey！)",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "(Ho！)",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "(Hey！)",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "(Ho！)",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "(Ho！)",
+      "Ay-Yai-Yai",
+      "Ya-Ya-Ya-Yai",
+      "Shaking now",
+      "Shaking now",
+      "",
+      "Oh my god！"
+    ]
+  }
+];
+
+// Keywords for Emerald/Glitch effects
+const keywords = [
+  { word: "High Jack", class: "kw-hijack" },
+  { word: "Oh my god", class: "kw-omg" },
+  { word: "new era", class: "kw-era" },
+  { word: "Shaking now", class: "kw-shaking" },
+  { word: "翼", class: "kw-wing" }, // Kanji for wing
+  { word: "ツバサ", class: "kw-wing" }, // Katakana for wing
+  { word: "Game", class: "kw-game" },
+  { word: "ゲーム", class: "kw-game" },
+  { word: "fly so high", class: "kw-fly" },
+  { word: "Two hearts", class: "kw-hearts" }
+];
+
+function enhanceText(text: string) {
+  if (!text) return "&nbsp;";
+  let html = text;
+  keywords.forEach(kw => {
+    html = html.replace(new RegExp(kw.word, 'gi'), `<span class="inline-block keyword ${kw.class}">${kw.word}</span>`);
+  });
+  return html;
+}
+---
+
+<BaseLayout title={`${title} - ${team}`} themeColor={themeColor}>
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;500;900&display=swap" rel="stylesheet">
+
+  <!-- Immersive Background System -->
+  <div class="fixed inset-0 -z-10 bg-[#030303] overflow-hidden select-none">
+    <!-- Analog Noise Overlay -->
+    <div class="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-overlay" 
+         style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'1\'/%3E%3C/svg%3E');">
+    </div>
+
+    <!-- Architectural Grid - Parallax Layer 1 -->
+    <div class="absolute inset-0 opacity-[0.1] parallax-layer" data-speed="0.2"
+         style="background-image: linear-gradient(#008e74 1px, transparent 1px), linear-gradient(90deg, #008e74 1px, transparent 1px); background-size: 50px 50px; mask-image: linear-gradient(to bottom, black 20%, transparent 90%);">
+    </div>
+
+    <!-- Volumetric Emerald Flares -->
+    <div class="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] bg-[#008e74] opacity-10 blur-[150px] rounded-full mix-blend-screen animate-pulse-slow pointer-events-none"></div>
+    <div class="absolute bottom-[-20%] right-[-20%] w-[80vw] h-[80vw] bg-[#002b23] opacity-40 blur-[150px] rounded-full mix-blend-color-dodge pointer-events-none"></div>
+
+    <!-- Random Glitch Lines -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-1/4 left-0 w-full h-[1px] bg-[#008e74]/30 animate-scan-fast"></div>
+        <div class="absolute bottom-1/3 left-0 w-full h-[2px] bg-[#008e74]/20 animate-scan-slow"></div>
+    </div>
+  </div>
+
+  <main class="relative z-10 w-full min-h-screen text-white selection:bg-[#008e74] selection:text-black font-space overflow-x-hidden">
+    
+    <!-- Hero Section -->
+    <section class="min-h-[100svh] flex flex-col items-center justify-center relative p-6 w-full perspective-1000">
+      
+      <!-- Background Kinetic Typography -->
+      <div class="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none opacity-[0.04] mix-blend-screen parallax-layer" data-speed="0.1">
+        <div class="w-full text-[25vw] font-bold font-syncopate text-transparent stroke-text whitespace-nowrap animate-marquee leading-none">
+          SHHIS NEW ERA SHHIS NEW ERA SHHIS NEW ERA
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="z-10 flex flex-col items-center gap-12 w-full max-w-5xl">
+        
+        <!-- Album Art with HUD Frame -->
+        <div class="relative group perspective-container hover:scale-105 transition-transform duration-700 ease-out">
+          <!-- Rotating Cyber Rings -->
+          <div class="absolute -inset-[25%] border border-[#008e74]/10 rounded-full animate-spin-slow pointer-events-none"></div>
+          <div class="absolute -inset-[15%] border border-dashed border-[#008e74]/20 rounded-full animate-spin-reverse-slow pointer-events-none"></div>
+
+          <!-- Glitch Brackets -->
+          <div class="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-[#008e74] transition-all duration-300 group-hover:-top-8 group-hover:-left-8 group-hover:border-[#00ffcc]"></div>
+          <div class="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-[#008e74] transition-all duration-300 group-hover:-bottom-8 group-hover:-right-8 group-hover:border-[#00ffcc]"></div>
+
+          <div class="relative w-72 h-72 md:w-96 md:h-96 shadow-[0_0_80px_rgba(0,142,116,0.2)] bg-black group-hover:shadow-[0_0_100px_rgba(0,142,116,0.5)] transition-shadow duration-700">
+            <!-- Glitch Image Effect Layers -->
+            <div class="absolute inset-0 bg-[url('https://music.sallyn.top/sc/oh-my-god.jpg')] bg-cover opacity-0 group-hover:opacity-60 mix-blend-hard-light animate-glitch-img pointer-events-none"></div>
+            
+            <img src={cover} alt={title} class="relative z-10 w-full h-full object-cover" transition:name="cover-oh-my-god" />
+            
+            <!-- Scan Overlay -->
+            <div class="absolute inset-0 z-20 bg-[linear-gradient(transparent_50%,rgba(0,142,116,0.2)_50%)] bg-[size:100%_4px] pointer-events-none opacity-50"></div>
+          </div>
+          
+          <!-- Decorative Data Tags -->
+          <div class="absolute top-1/2 -right-16 -translate-y-1/2 flex flex-col gap-2 opacity-0 md:opacity-100 transition-opacity duration-500">
+            <span class="text-[9px] font-syncopate text-[#008e74] writing-vertical-rl tracking-widest">SYSTEM: ONLINE</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-[#008e74] to-transparent"></div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-4 w-full px-4 mix-blend-overlay-group relative">
+           <!-- Title Decoration -->
+          <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-[1px] h-12 bg-gradient-to-b from-transparent to-[#008e74] opacity-50"></div>
+
+          <h1 class="glitch-title text-5xl md:text-8xl lg:text-9xl font-syncopate font-bold tracking-tighter text-white break-words" data-text={title} id="main-title">
+            {title}
+          </h1>
+          
+          <div class="flex items-center justify-center gap-4 mt-4">
+             <div class="h-[1px] w-12 bg-[#008e74]/50"></div>
+             <p class="text-xl md:text-2xl font-light tracking-[0.5em] text-[#008e74] uppercase">
+              {team}
+            </p>
+             <div class="h-[1px] w-12 bg-[#008e74]/50"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scroll Trigger -->
+      <div class="absolute bottom-10 flex flex-col items-center gap-3">
+        <span class="text-[10px] font-syncopate tracking-[0.4em] text-[#008e74]/70 uppercase animate-pulse">Initialize</span>
+        <div class="w-[1px] h-16 bg-gradient-to-b from-[#008e74] to-transparent"></div>
+      </div>
+    </section>
+
+    <!-- Lyrics Stream -->
+    <div class="max-w-6xl mx-auto px-6 pb-64 space-y-32 w-full relative z-20">
+      
+      {lyrics.map((section, idx) => (
+        <section class={`lyrics-section relative pl-6 md:pl-20 border-l border-[#008e74]/10 ${section.type}`}>
+          <!-- Holographic Section Marker -->
+          <div class="absolute -left-[3px] top-0 w-[5px] h-full bg-gradient-to-b from-[#008e74] to-transparent opacity-0 transition-opacity duration-500 section-active-indicator"></div>
+          
+          <div class="absolute -left-[5px] top-0 w-[11px] h-[11px] bg-[#008e74] rotate-45 flex items-center justify-center shadow-[0_0_10px_#008e74]"></div>
+
+          <div class="absolute -left-16 top-2 text-[40px] font-syncopate text-[#008e74]/10 font-bold select-none hidden md:block">
+            {`0${idx + 1}`}
+          </div>
+          <div class="absolute left-8 -top-8 text-[10px] font-syncopate text-[#008e74] tracking-[0.3em] uppercase opacity-70 mb-4 block">
+            // {section.type}
+          </div>
+
+          <div class="space-y-8 md:space-y-10 pt-4">
+            {section.lines.map((line, i) => (
+              line === "" ? <div class="h-8"></div> :
+              <div class="reveal-text group relative">
+                <!-- Data Line on Hover -->
+                <div class="absolute -left-8 top-1/2 -translate-y-1/2 w-4 h-[1px] bg-[#008e74] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:-left-6"></div>
+                
+                <p class={`
+                  relative z-10 transition-all duration-500
+                  ${section.type.includes('chorus') 
+                    ? 'text-3xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tight text-white/90 drop-shadow-[0_0_15px_rgba(0,142,116,0.4)] leading-tight' 
+                    : 'text-lg md:text-3xl font-medium text-white/50 group-hover:text-white group-hover:tracking-wide leading-relaxed'}
+                `}
+                style={`transition-delay: ${i * 40}ms`}
+                set:html={enhanceText(line)} />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+    </div>
+
+  </main>
+
+  <!-- Cyberpunk Player Dock -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 p-2 md:p-6 pointer-events-none flex justify-center items-end">
+    <div class="pointer-events-auto w-full max-w-4xl bg-[#030303]/90 backdrop-blur-2xl border-t md:border border-[#008e74]/30 text-white relative overflow-hidden group/player clip-path-player shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+      
+      <!-- Scanning Line in Player -->
+      <div class="absolute top-0 bottom-0 left-0 w-[2px] bg-[#008e74]/50 shadow-[0_0_15px_#008e74] animate-player-scan pointer-events-none"></div>
+
+      <div class="flex items-center gap-4 md:gap-6 p-4">
+        <!-- Artwork -->
+        <div class="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-black border border-[#008e74]/30 group-hover/player:border-[#008e74] transition-colors overflow-hidden">
+          <img src={cover} class="w-full h-full object-cover opacity-80 group-hover/player:opacity-100 transition-opacity" />
+          <!-- EQ Bars -->
+          <div class="absolute bottom-0 inset-x-0 h-4 flex items-end justify-center gap-[2px] opacity-100" id="player-eq">
+            <div class="w-1 bg-[#008e74] h-[20%] transition-all duration-200 eq-bar"></div>
+            <div class="w-1 bg-[#008e74] h-[30%] transition-all duration-200 eq-bar"></div>
+            <div class="w-1 bg-[#008e74] h-[15%] transition-all duration-200 eq-bar"></div>
+          </div>
+        </div>
+
+        <!-- Controls & Info -->
+        <div class="flex-1 min-w-0 flex flex-col justify-center gap-2">
+          <div class="flex justify-between items-end border-b border-white/5 pb-2">
+            <div class="flex flex-col overflow-hidden">
+              <span class="text-[10px] text-[#008e74] font-syncopate tracking-widest uppercase">Now Playing</span>
+              <span class="text-sm md:text-lg font-bold truncate uppercase tracking-tight font-syncopate text-white/90">{title}</span>
+            </div>
+            <span id="time-display" class="font-syncopate text-[10px] text-[#008e74] tabular-nums tracking-widest">00:00</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="h-1 w-full bg-[#222] cursor-pointer relative group/progress" id="progress-container">
+            <div id="progress-bar" class="h-full bg-[#008e74] w-0 relative shadow-[0_0_10px_#008e74]">
+              <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rotate-45 scale-0 group-hover/progress:scale-100 transition-transform shadow-[0_0_10px_white]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex items-center gap-3 md:gap-6 pl-4 border-l border-white/10">
+          <button id="play-btn" class="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center bg-[#008e74] hover:bg-[#00ffcc] text-black transition-all duration-300 clip-path-hex shadow-[0_0_20px_rgba(0,142,116,0.4)]">
+            <svg id="play-icon" class="w-4 h-4 md:w-5 md:h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-icon" class="hidden w-4 h-4 md:w-5 md:h-5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          
+          <!-- Volume (Desktop only) -->
+          <div class="hidden md:flex flex-col gap-1 items-center group/vol relative">
+            <div class="w-1.5 h-12 bg-[#222] relative rounded-full overflow-hidden">
+              <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" 
+                     class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 -rotate-90 opacity-0 cursor-pointer z-10" />
+              <div id="vol-bar" class="absolute bottom-0 left-0 right-0 bg-[#008e74] h-1/2 pointer-events-none transition-all"></div>
+            </div>
+            <div class="absolute -bottom-4 text-[8px] font-syncopate text-[#008e74] opacity-0 group-hover/vol:opacity-100 transition-opacity">VOL</div>
+          </div>
+        </div>
+      </div>
+
+      <audio id="main-audio" src={audio} preload="auto"></audio>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<style>
+  :root {
+    --color-emerald: #008e74;
+    --font-syncopate: 'Syncopate', sans-serif;
+    --font-space: 'Space Grotesk', sans-serif;
+  }
+
+  .font-syncopate { font-family: var(--font-syncopate); }
+  .font-space { font-family: var(--font-space); }
+  
+  .stroke-text {
+    -webkit-text-stroke: 1px rgba(0, 142, 116, 0.1);
+  }
+
+  /* Player Shapes */
+  .clip-path-player {
+    clip-path: polygon(
+      0 0, 
+      100% 0, 
+      100% 100%, 
+      0 100%
+    );
+  }
+  @media (min-width: 768px) {
+    .clip-path-player {
+      clip-path: polygon(
+        10px 0, 
+        calc(100% - 10px) 0, 
+        100% 10px, 
+        100% calc(100% - 10px), 
+        calc(100% - 10px) 100%, 
+        10px 100%, 
+        0 calc(100% - 10px), 
+        0 10px
+      );
+    }
+  }
+
+  .clip-path-hex {
+    clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  }
+
+  /* Animations */
+  @keyframes scan-fast {
+    0% { top: -10%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+  }
+  .animate-scan-fast {
+    animation: scan-fast 2s linear infinite;
+  }
+  
+  @keyframes scan-slow {
+    0% { top: -10%; opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { top: 110%; opacity: 0; }
+  }
+  .animate-scan-slow {
+    animation: scan-slow 5s linear infinite;
+  }
+
+  @keyframes player-scan {
+    0% { left: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+  .animate-player-scan {
+    animation: player-scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(1.05); }
+  }
+  .animate-pulse-slow {
+    animation: pulse-slow 8s ease-in-out infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+  
+  @keyframes spin-reverse-slow { to { transform: rotate(-360deg); } }
+  .animate-spin-reverse-slow { animation: spin-reverse-slow 25s linear infinite; }
+
+  /* EQ Animations */
+  @keyframes eq-bounce {
+    0%, 100% { height: 20%; }
+    50% { height: 90%; }
+  }
+  .animate-eq {
+    animation: eq-bounce 0.5s ease-in-out infinite alternate;
+  }
+
+  /* Glitch Text */
+  .glitch-title {
+    position: relative;
+    color: white;
+    mix-blend-mode: lighten;
+  }
+  .glitch-title::before,
+  .glitch-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #030303;
+  }
+  .glitch-title::before {
+    left: 2px;
+    text-shadow: 2px 0 #008e74;
+    clip-path: inset(0 0 0 0);
+    animation: glitch-anim-1 4s infinite linear alternate-reverse;
+  }
+  .glitch-title::after {
+    left: -2px;
+    text-shadow: -2px 0 #ff00de;
+    clip-path: inset(0 0 0 0);
+    animation: glitch-anim-2 4s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); }
+    2% { clip-path: inset(60% 0 10% 0); }
+    4% { clip-path: inset(40% 0 50% 0); }
+    6% { clip-path: inset(80% 0 5% 0); }
+    8% { clip-path: inset(10% 0 70% 0); }
+    10% { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 60% 0); }
+    2% { clip-path: inset(80% 0 5% 0); }
+    4% { clip-path: inset(30% 0 20% 0); }
+    6% { clip-path: inset(10% 0 80% 0); }
+    8% { clip-path: inset(50% 0 30% 0); }
+    10% { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+
+  /* Reveal Text */
+  .reveal-text {
+    opacity: 0;
+    transform: translateX(-10px) skewX(5deg);
+    filter: blur(8px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-text.visible {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+    filter: blur(0);
+  }
+
+  /* Keywords */
+  .keyword {
+    color: var(--color-emerald);
+    font-weight: 700;
+  }
+  .kw-omg {
+    text-shadow: 0 0 15px var(--color-emerald);
+    animation: pulse-text 2s infinite;
+  }
+  .kw-hijack {
+    background: var(--color-emerald);
+    color: #000;
+    padding: 0 4px;
+    font-family: var(--font-syncopate);
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+  }
+  .kw-wing {
+    display: inline-block;
+    background: linear-gradient(to top, transparent 50%, rgba(0,142,116,0.3) 50%);
+  }
+  .kw-fly {
+    text-decoration: underline;
+    text-decoration-color: var(--color-emerald);
+    text-underline-offset: 4px;
+  }
+  .kw-hearts {
+    color: #ff00de;
+    text-shadow: 0 0 10px rgba(255, 0, 222, 0.5);
+  }
+  
+  @keyframes pulse-text {
+    0%, 100% { opacity: 1; text-shadow: 0 0 15px var(--color-emerald); }
+    50% { opacity: 0.8; text-shadow: 0 0 5px var(--color-emerald); }
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: #008e74; border-radius: 0px; }
+</style>
+
+<script>
+  function init() {
+    // Parallax Effect
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      document.querySelectorAll('.parallax-layer').forEach((layer: any) => {
+        const speed = layer.getAttribute('data-speed') || 0.1;
+        layer.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+
+    // Decoding Text Effect for Title
+    const title = document.getElementById('main-title');
+    if (title) {
+      const originalText = title.innerText;
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+      let iterations = 0;
+      
+      const interval = setInterval(() => {
+        title.innerText = originalText
+          .split("")
+          .map((letter, index) => {
+            if (index < iterations) {
+              return originalText[index];
+            }
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("");
+        
+        if (iterations >= originalText.length) {
+          clearInterval(interval);
+        }
+        
+        iterations += 1 / 3;
+      }, 30);
+    }
+
+    // Intersection Observer for Text Reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const section = entry.target.closest('.lyrics-section');
+          if (section) {
+            const indicator = section.querySelector('.section-active-indicator');
+            if (indicator) indicator.classList.remove('opacity-0');
+          }
+        } else {
+           const section = entry.target.closest('.lyrics-section');
+           if (section) {
+             const indicator = section.querySelector('.section-active-indicator');
+             // Keeping it lit once visited for better UX or toggle if preferred
+             // if (indicator) indicator.classList.add('opacity-0'); 
+           }
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "-10% 0px -10% 0px" });
+
+    document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+
+    // Audio Player Logic
+    const audio = document.getElementById('main-audio') as HTMLAudioElement;
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const timeDisplay = document.getElementById('time-display');
+    const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+    const volBar = document.getElementById('vol-bar');
+    const eqBars = document.querySelectorAll('.eq-bar');
+
+    let eqInterval: any;
+
+    if (audio && playBtn) {
+      audio.volume = 0.5;
+
+      const startEQ = () => {
+        eqInterval = setInterval(() => {
+          eqBars.forEach((bar: any) => {
+            bar.style.height = `${Math.random() * 80 + 20}%`;
+          });
+        }, 100);
+      };
+
+      const stopEQ = () => {
+        clearInterval(eqInterval);
+        eqBars.forEach((bar: any) => {
+          bar.style.height = '20%';
+        });
+      };
+
+      const togglePlay = () => {
+        if (audio.paused) {
+          audio.play();
+          playIcon?.classList.add('hidden');
+          pauseIcon?.classList.remove('hidden');
+          startEQ();
+        } else {
+          audio.pause();
+          playIcon?.classList.remove('hidden');
+          pauseIcon?.classList.add('hidden');
+          stopEQ();
+        }
+      };
+
+      playBtn.onclick = togglePlay;
+
+      audio.ontimeupdate = () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        
+        const m = Math.floor(audio.currentTime / 60);
+        const s = Math.floor(audio.currentTime % 60);
+        if (timeDisplay) {
+          timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+      };
+
+      if (progressContainer) {
+        progressContainer.onclick = (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const p = (e.clientX - rect.left) / rect.width;
+          audio.currentTime = p * audio.duration;
+        };
+      }
+
+      if (volumeSlider && volBar) {
+        const updateVol = () => {
+          const val = parseFloat(volumeSlider.value);
+          audio.volume = val;
+          volBar.style.height = `${val * 100}%`;
+        };
+        volumeSlider.oninput = updateVol;
+        updateVol();
+      }
+    }
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>
