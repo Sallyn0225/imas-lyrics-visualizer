@@ -1,0 +1,604 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+// Metadata
+const title = "KAWAII♡めたもる交響曲";
+const brand = "Shiny Colors";
+const team = "I'm a Cutie Finder";
+const themeColor = "#ff69b4"; // Hot Pink
+const description = "KAWAII♡めたもる交響曲 - I'm a Cutie Finder";
+const cover = "https://music.sallyn.top/sc/kawaii-metamorph-symphonic.jpg";
+const audio = "https://music.sallyn.top/sc/kawaii-metamorph-symphonic.mp3";
+
+// Lyrics Data Structure for rich rendering
+const lyricsSections = [
+  {
+    type: 'intro-qa',
+    items: [
+      { q: "Q1.KAWAIIとは？", a: "A.七色のシンパシー" },
+      { q: "Q2.と、言いますと？", a: "A.予測不能トポロジー" },
+      { q: "Q3.具体的に？", a: "A.不可侵なヒストリー" },
+      { q: "Q4.ちゃんと教えて！", a: "A.しょーがない！" }
+    ]
+  },
+  {
+    type: 'shout',
+    text: "I'm a Cutie Finder",
+    call: "(よっしゃ　いくぞー！)"
+  },
+  {
+    type: 'verse',
+    lines: [
+      { text: "し　し　し　森羅万象 KAWAII中毒", call: "(ふっ　ふー！)" },
+      { text: "きゅ　きゅ　きゅ　吸引しちゃうぞ　きゅいんきゅいん" },
+      { call: "(はい！はい！)", isOnlyCall: true },
+      { text: "ぜ　ぜ　ぜ　前代未聞　めたもるふぉーぜ", call: "(ふっ　ふー！)" },
+      { text: "だ　だ　だ　大発見のオンパレード" },
+      { call: "(はい！はい！はい！はい！)", isOnlyCall: true },
+      { text: "な　な　な　なんてったって　とにかくもっと", call: "(ふっ　ふー！)" },
+      { text: "キミを　ふにゃふにゃ　ニヤニヤさせたいな" },
+      { text: "KAWAIIパワーでわたし変幻自在", call: "(いぇーい！)" }
+    ]
+  },
+  {
+    type: 'verse-2',
+    lines: [
+      { text: "にっちもさっちも片想い　かわいいね", call: "(いいね！)" },
+      { text: "涙塗れ　ぐしゃぐしゃなサバイバー", call: "(いいね！)" },
+      { text: "アピれ　とことん　まずはスキンケア" },
+      { text: "遠回りでも　もーまんたい！", call: "(もーまんたい！)" },
+      { text: "うんともすんとも空振り　かわいいね", call: "(いいね！)" },
+      { text: "なんでもいいから　交わしたいキミとエンゲージ", call: "(いいね！)" },
+      { text: "七転八倒でFIGHT！　猪突猛進なGIRL！" },
+      { text: "いい子いい子まだ？　おねがい！", call: "(おねがい！)" }
+    ]
+  },
+  {
+    type: 'chorus-intro',
+    lines: [
+      { text: "みーつけたっ！みーつけたっ！みーつけたっ！" },
+      { call: "(はい！はい！はい！)", isOnlyCall: true },
+      { text: "みーつけたっ！みーつけたっ！みーつけたっ！" },
+      { call: "(はい！はい！はい！)", isOnlyCall: true },
+      { text: "みーつけたっ！", call: "(はい！はい！はい！)" },
+      { text: "みーつけたっ！", call: "(はい！はい！はい！)" },
+      { text: "みーつけたっ！みーつけたっ！", call: "(はい！はい！へんしん！)" }
+    ]
+  },
+  {
+    type: 'chorus',
+    lines: [
+      { text: "キモチは重なるファイナリー" },
+      { text: "いま　ぎゅ　ぎゅっと信じてる" },
+      { text: "こういう健気さがかわいい", call: "(はい！はい！はい！はい！)" },
+      { text: "夢見がちなとこまでかわいすぎ！", call: "(いぇー！)" },
+      { text: "ほら、キミとわたしならバイナリーだね" },
+      { text: "ぱっ　ぱっと繋がってく" },
+      { text: "キミに気付かせたいかわいさ　みるみるうちにキャパ超え" },
+      { text: "あいらびゅー" }
+    ]
+  },
+  {
+    type: 'bridge-sad',
+    lines: [
+      { text: "やばい！また既読すらつかない　信じたくない　やい　やい" },
+      { text: "脈ナシ濃厚　伝え切る前に諦めちゃいそう..." },
+      { text: "わあ！？急に止まった！" },
+      { text: "なにこれ？なんなの？どうなっちゃうのぉ～！？" }
+    ]
+  },
+  {
+    type: 'monologue',
+    lines: [
+      { text: "私なんかじゃ届くはずないと閉じ込めた想い" },
+      { text: "手を伸ばしても隙間をすり抜けるだけで" },
+      { text: "君が最後にくれたあの言葉" },
+      { text: "「も～！ダメダメダメ！！なんかちがーう！" },
+      { text: "この世界観、わたしっぽくなぁーい！」" },
+      { text: "がむしゃらで　ドタバタで　一方通行　なにが悪いんです？", call: "(いぇーい！)" }
+    ]
+  },
+  {
+    type: 'outro-qa',
+    items: [
+      { q: "Q5.KAWAIIとは？", a: "A.無限大のエモーション" },
+      { q: "Q6.えっと、つまりは...？", a: "A.キミにかわいいって言わせたいんです。" }
+    ]
+  },
+  {
+    type: 'final',
+    lines: [
+      { text: "やっぱっぱ　張り切ってくぞ！" },
+      { text: "やっぱっぱ I'm a Cutie Finder", call: "(さいこー！いぇーい！)" }
+    ]
+  }
+];
+
+---
+
+<BaseLayout title={title} themeColor={themeColor}>
+  <div class="kawaii-world relative w-full overflow-hidden bg-zinc-950 font-sans">
+    
+    <!-- Background Particles -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ff69b41a_0%,_transparent_70%)] animate-pulse-slow"></div>
+      <div class="particles-container absolute inset-0"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col justify-center items-center text-center p-4 z-10" id="hero">
+      <div class="bubble-bg absolute inset-0 opacity-20 bg-[url('https://api.iconify.design/ph:heart-fill.svg?color=%23ff69b4')] bg-repeat space-y-4"></div>
+      
+      <!-- Cover Image -->
+      <div class="mb-8 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 blur-3xl opacity-50 animate-pulse-slow"></div>
+        <img 
+          src={cover} 
+          alt={title}
+          class="relative w-64 h-64 md:w-80 md:h-80 object-cover rounded-3xl shadow-[0_0_50px_rgba(255,105,180,0.6)] transform hover:scale-105 transition-transform duration-500 border-4 border-pink-400/30"
+        />
+      </div>
+      
+      <h1 class="kawaii-title text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-yellow-400 drop-shadow-[0_0_15px_rgba(255,105,180,0.5)] mb-4 animate-float">
+        KAWAII♡<br class="md:hidden"/>めたもる<br class="md:hidden"/>交響曲
+      </h1>
+      <p class="text-pink-200 text-lg md:text-2xl tracking-widest uppercase font-bold animate-bounce-gentle">I'm a Cutie Finder</p>
+      
+      <div class="scroll-indicator absolute bottom-10 animate-bounce">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-pink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 pb-32 space-y-32">
+      
+      <!-- Q&A Intro -->
+      <section class="qa-section space-y-8 min-h-[50vh] flex flex-col justify-center">
+        {lyricsSections[0].items.map((item, index) => (
+          <div class={`qa-card bg-white/10 backdrop-blur-md border border-pink-500/30 rounded-2xl p-6 transform transition-all duration-500 hover:scale-105 hover:bg-pink-500/20 opacity-0 translate-y-10`} style={`transition-delay: ${index * 200}ms`}>
+            <div class="text-pink-400 font-bold text-xl mb-2">Wait... {item.q}</div>
+            <div class="text-white font-black text-2xl md:text-4xl typing-effect">{item.a}</div>
+          </div>
+        ))}
+      </section>
+
+      <!-- Shout -->
+      <section class="shout-section text-center py-20">
+        <div class="text-4xl md:text-7xl font-black text-white mix-blend-overlay animate-pulse">
+          {lyricsSections[1].text}
+        </div>
+        <div class="text-yellow-400 text-3xl md:text-5xl font-bold mt-4 animate-shake">
+          {lyricsSections[1].call}
+        </div>
+      </section>
+
+      <!-- Verse 1 -->
+      <section class="verse-section space-y-12">
+        {(lyricsSections[2].lines as any[]).map((line) => (
+          <div class="verse-line group relative text-center">
+            {line.text && (
+              <p class="text-xl md:text-3xl font-bold text-pink-100 group-hover:text-pink-400 transition-colors duration-300 reveal-text">
+                {line.text}
+              </p>
+            )}
+            {line.call && (
+              <p class={`call-response text-2xl md:text-5xl font-black text-yellow-300 mt-2 ${line.isOnlyCall ? 'scale-125' : ''} reveal-pop`}>
+                {line.call}
+              </p>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <!-- Verse 2 -->
+      <section class="verse-section space-y-12">
+        {(lyricsSections[3].lines as any[]).map((line) => (
+          <div class="verse-line text-center reveal-slide">
+            {line.text && <p class="text-xl md:text-3xl text-purple-100">{line.text}</p>}
+            {line.call && <p class="text-2xl md:text-4xl font-bold text-pink-400 mt-1">{line.call}</p>}
+          </div>
+        ))}
+      </section>
+
+      <!-- Chorus Intro (Mitsuketa!) -->
+      <section class="chorus-intro py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-pink-900/20 to-transparent pointer-events-none"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {(lyricsSections[4].lines as any[]).map((line, i) => (
+             <div class={`text-center ${line.isOnlyCall ? 'md:col-span-2' : ''} reveal-explosive`}>
+               {line.text && <div class="text-3xl md:text-5xl font-black text-white drop-shadow-lg">{line.text}</div>}
+               {line.call && <div class="text-2xl md:text-4xl font-bold text-yellow-400 mt-2 animate-pulse">{line.call}</div>}
+             </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Main Chorus -->
+      <section class="chorus-main space-y-8 text-center py-10 bg-white/5 rounded-3xl backdrop-blur-sm border border-pink-500/20 shadow-[0_0_50px_rgba(255,105,180,0.2)]">
+        {(lyricsSections[5].lines as any[]).map((line) => (
+          <div class="chorus-line reveal-fade">
+            <p class="text-2xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300">
+              {line.text}
+            </p>
+            {line.call && <p class="text-3xl md:text-5xl font-bold text-yellow-400 mt-2 tracking-widest">{line.call}</p>}
+          </div>
+        ))}
+      </section>
+
+      <!-- Bridge (Sad/Pause) -->
+      <section class="bridge-sad min-h-[40vh] flex flex-col justify-center items-center text-center space-y-6 grayscale hover:grayscale-0 transition-all duration-1000">
+        {(lyricsSections[6].lines as any[]).map((line) => (
+          <p class="text-zinc-400 text-lg md:text-xl font-mono typing-slow reveal-fade">{line.text}</p>
+        ))}
+      </section>
+
+      <!-- Monologue -->
+      <section class="monologue space-y-4 py-20 px-6 border-l-4 border-pink-600 bg-gradient-to-r from-pink-900/10 to-transparent">
+        {(lyricsSections[7].lines as any[]).map((line) => (
+          <p class="text-xl md:text-2xl font-bold text-pink-200 italic reveal-slide-right">
+            {line.text}
+            {line.call && <span class="block text-yellow-400 not-italic text-4xl mt-4">{line.call}</span>}
+          </p>
+        ))}
+      </section>
+
+      <!-- Outro Q&A -->
+      <section class="outro-qa space-y-8">
+        {(lyricsSections[8].items as any[]).map((item) => (
+          <div class="qa-card-final text-center reveal-pop">
+            <div class="text-pink-400 text-xl">{item.q}</div>
+            <div class="text-4xl md:text-6xl font-black text-white mt-2">{item.a}</div>
+          </div>
+        ))}
+      </section>
+
+      <!-- Final -->
+      <section class="final text-center pb-20">
+        {(lyricsSections[9].lines as any[]).map((line) => (
+          <div class="mb-8 reveal-explosive">
+            <div class="text-3xl md:text-5xl font-bold text-white">{line.text}</div>
+            {line.call && <div class="text-5xl md:text-8xl font-black text-yellow-400 mt-4 animate-bounce">{line.call}</div>}
+          </div>
+        ))}
+      </section>
+
+    </main>
+
+
+    <!-- Custom Magical Player -->
+    <div id="magical-player" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50 transition-all duration-500 transform translate-y-32 opacity-0">
+      <div class="relative bg-white/10 backdrop-blur-xl border border-pink-400/30 rounded-full p-4 shadow-[0_0_40px_rgba(255,105,180,0.4)] flex items-center gap-4 overflow-hidden group hover:bg-white/15 transition-colors">
+        
+        <!-- Animated Background Glow -->
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-yellow-500/20 opacity-50 blur-xl group-hover:opacity-70 transition-opacity"></div>
+        
+        <!-- Play/Pause Button -->
+        <button id="play-btn" class="relative z-10 w-12 h-12 flex-shrink-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 active:scale-95 transition-transform duration-300 group/btn">
+          <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover/btn:opacity-20 animate-pulse"></div>
+          <!-- Play Icon -->
+          <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <!-- Pause Icon (Hidden) -->
+          <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+
+        <!-- Info & Progress -->
+        <div class="flex-1 min-w-0 z-10 flex flex-col justify-center gap-1">
+          <!-- Time & Label -->
+          <div class="flex justify-between items-center text-xs font-bold font-mono tracking-wider">
+            <span class="text-pink-200">KAWAII RADIO</span>
+            <div class="text-pink-100"><span id="curr-time">0:00</span> / <span id="total-time">0:00</span></div>
+          </div>
+          
+          <!-- Progress Bar Container -->
+          <div id="progress-container" class="relative w-full h-2 bg-black/20 rounded-full cursor-pointer group/progress overflow-hidden">
+            <!-- Buffer Bar -->
+            <div class="absolute top-0 left-0 h-full bg-white/10 w-full"></div>
+            <!-- Progress Fill -->
+            <div id="progress-fill" class="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-400 via-purple-400 to-yellow-400 w-0 relative">
+               <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_white] scale-0 group-hover/progress:scale-150 transition-transform"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volume Control -->
+        <div class="relative z-10 flex items-center gap-2 flex-shrink-0">
+          <button id="mute-btn" class="w-8 h-8 text-pink-300 hover:text-white transition-colors flex-shrink-0">
+            <svg id="icon-vol-on" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <svg id="icon-vol-off" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+          
+          <!-- Volume Slider -->
+          <div class="hidden md:flex items-center w-20 h-2 relative group/volume">
+            <input 
+              type="range" 
+              id="volume-slider" 
+              min="0" 
+              max="100" 
+              value="100" 
+              class="volume-slider w-full h-full cursor-pointer appearance-none bg-transparent relative z-10"
+            />
+            <div class="absolute inset-0 bg-black/20 rounded-full pointer-events-none"></div>
+            <div id="volume-fill" class="absolute left-0 top-0 h-full bg-gradient-to-r from-pink-400 to-purple-400 rounded-full pointer-events-none w-full transition-all duration-150">
+              <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_white] scale-0 group-hover/volume:scale-150 transition-transform"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Decoration Wings -->
+      <div class="absolute -left-4 top-1/2 -translate-y-1/2 -z-10 w-8 h-16 bg-pink-500/20 rounded-l-full blur-md animate-pulse"></div>
+      <div class="absolute -right-4 top-1/2 -translate-y-1/2 -z-10 w-8 h-16 bg-purple-500/20 rounded-r-full blur-md animate-pulse" style="animation-delay: 0.5s"></div>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="main-audio" src={audio} preload="metadata"></audio>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* Custom Font & Animations */
+  @font-face {
+    font-family: 'RoundedMplus1c';
+    src: url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;800&display=swap');
+  }
+
+  .kawaii-world {
+    font-family: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', sans-serif;
+  }
+
+  /* Keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+  .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+
+  @keyframes bounce-gentle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
+
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+  }
+  .animate-shake { animation: shake 0.5s ease-in-out infinite; }
+
+  /* Utilities */
+  .reveal-text, .reveal-pop, .reveal-slide, .reveal-explosive, .reveal-fade, .reveal-slide-right, .qa-card, .qa-card-final {
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Ensure blur is set initially for elements that need it */
+    filter: blur(0); 
+  }
+  
+  .reveal-explosive {
+    filter: blur(10px);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1) !important;
+    filter: blur(0) !important; /* Force remove blur */
+  }
+  
+  /* Initial States */
+  .reveal-pop { transform: scale(0.5); }
+  .reveal-slide { transform: translateY(30px); }
+  .reveal-slide-right { transform: translateX(-50px); }
+  .reveal-explosive { transform: scale(1.5); }
+
+  /* Volume Slider Styling */
+  .volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    transition: transform 0.2s;
+  }
+  
+  .volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 1);
+  }
+  
+  .volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    transition: transform 0.2s;
+  }
+  
+  .volume-slider::-moz-range-thumb:hover {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 1);
+  }
+
+</style>
+
+<script>
+  function initPage() {
+    // Intersection Observer for Animations
+    const observerOptions = {
+      threshold: 0.15, // Slightly increased to ensure better visibility before triggering
+      rootMargin: "0px 0px -10% 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+        } else {
+           // Keep them visible to avoid flicker, or remove if you want re-entry animation
+           entry.target.classList.remove('reveal-visible');
+        }
+      });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.qa-card, .reveal-text, .reveal-pop, .reveal-slide, .reveal-explosive, .reveal-fade, .reveal-slide-right, .qa-card-final');
+    animatedElements.forEach(el => observer.observe(el));
+
+    // Particle System (Simple CSS/JS hybrid)
+    const container = document.querySelector('.particles-container');
+    if (container) {
+      container.innerHTML = ''; // Clear existing particles if re-running
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'absolute text-pink-500/30 animate-float pointer-events-none';
+        p.innerHTML = '♥';
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.top = `${Math.random() * 100}%`;
+        p.style.fontSize = `${Math.random() * 3 + 1}rem`;
+        p.style.animationDuration = `${Math.random() * 5 + 3}s`;
+        p.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(p);
+      }
+    }
+
+    // --- Audio Player Logic ---
+    const audio = document.getElementById('main-audio') as HTMLAudioElement;
+    const playerContainer = document.getElementById('magical-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('icon-play');
+    const pauseIcon = document.getElementById('icon-pause');
+    const progressContainer = document.getElementById('progress-container');
+    const progressFill = document.getElementById('progress-fill');
+    const currTimeEl = document.getElementById('curr-time');
+    const totalTimeEl = document.getElementById('total-time');
+    const muteBtn = document.getElementById('mute-btn');
+    const volOnIcon = document.getElementById('icon-vol-on');
+    const volOffIcon = document.getElementById('icon-vol-off');
+    const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+    const volumeFill = document.getElementById('volume-fill');
+
+    if (audio && playerContainer && playBtn && progressContainer && progressFill && currTimeEl && totalTimeEl && muteBtn) {
+      
+      // Reveal player after a short delay
+      setTimeout(() => {
+        playerContainer.classList.remove('translate-y-32', 'opacity-0');
+      }, 1000);
+
+      // Formatting helper
+      const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return `${m}:${s.toString().padStart(2, '0')}`;
+      };
+
+      // Play/Pause Toggle
+      const togglePlay = () => {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      };
+
+      playBtn.addEventListener('click', togglePlay);
+
+      // Audio Events
+      audio.addEventListener('play', () => {
+        playIcon?.classList.add('hidden');
+        pauseIcon?.classList.remove('hidden');
+        playerContainer.classList.add('scale-105'); // Subtle pulse when playing
+      });
+
+      audio.addEventListener('pause', () => {
+        playIcon?.classList.remove('hidden');
+        pauseIcon?.classList.add('hidden');
+        playerContainer.classList.remove('scale-105');
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        if (progressFill) progressFill.style.width = `${percent}%`;
+        if (currTimeEl) currTimeEl.textContent = formatTime(audio.currentTime);
+      });
+
+      audio.addEventListener('loadedmetadata', () => {
+        if (totalTimeEl) totalTimeEl.textContent = formatTime(audio.duration);
+      });
+      
+      // Progress Seek
+      progressContainer.addEventListener('click', (e) => {
+        const rect = progressContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        const percent = x / width;
+        audio.currentTime = percent * audio.duration;
+      });
+
+      // Volume Toggle
+      muteBtn.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        updateVolumeUI();
+      });
+
+      // Volume Slider
+      if (volumeSlider && volumeFill) {
+        // Load saved volume or default to 100%
+        const savedVolume = localStorage.getItem('kawaii-player-volume');
+        const initialVolume = savedVolume ? parseFloat(savedVolume) : 1.0;
+        audio.volume = initialVolume;
+        volumeSlider.value = String(initialVolume * 100);
+        updateVolumeUI();
+
+        volumeSlider.addEventListener('input', (e) => {
+          const value = parseFloat((e.target as HTMLInputElement).value) / 100;
+          audio.volume = value;
+          if (value > 0 && audio.muted) {
+            audio.muted = false;
+          }
+          updateVolumeUI();
+          localStorage.setItem('kawaii-player-volume', String(value));
+        });
+      }
+
+      // Update volume UI helper
+      function updateVolumeUI() {
+        const isMuted = audio.muted || audio.volume === 0;
+        
+        if (volOnIcon && volOffIcon) {
+          if (isMuted) {
+            volOnIcon.classList.add('hidden');
+            volOffIcon.classList.remove('hidden');
+          } else {
+            volOnIcon.classList.remove('hidden');
+            volOffIcon.classList.add('hidden');
+          }
+        }
+        
+        if (volumeFill && volumeSlider) {
+          const volumePercent = audio.muted ? 0 : audio.volume * 100;
+          volumeFill.style.width = `${volumePercent}%`;
+          volumeSlider.value = String(audio.volume * 100);
+        }
+      }
+    }
+
+    // Cleanup function
+    document.addEventListener('astro:before-swap', () => {
+      observer.disconnect();
+    }, { once: true });
+  }
+
+  // Astro Page Load
+  document.addEventListener('astro:page-load', initPage);
+</script>
